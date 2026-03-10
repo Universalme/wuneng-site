@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>无限深势阱实验 · 物能 · 3D版</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#1f2a37;
+      --muted:#5f6b7a;
+      --line:#dbe3ec;
+      --primary:#1f6feb;
+      --primary-dark:#1659bb;
+      --soft:#eaf3ff;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{ text-decoration:none; color:inherit; }
+
+    .container{
+      width:min(1280px, calc(100% - 24px));
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:34px 0 18px;
+      background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 58%,#eef5ff 100%);
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero h1{
+      margin:0;
+      text-align:center;
+      font-size:36px;
+    }
+
+    .hero p{
+      margin:8px auto 0;
+      max-width:920px;
+      text-align:center;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:700;
+      font-size:14px;
+      transition:.2s ease;
+    }
+
+    .btn.primary{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+
+    main{
+      padding:16px 0 24px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:1.6fr 0.9fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .left-col,.right-col{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .card h2{
+      margin:0 0 8px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:18px;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .viewer-wrap{
+      width:100%;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    #apparatus3d{
+      width:100%;
+      height:390px;
+      background:linear-gradient(180deg,#fbfdff 0%,#f3f8ff 100%);
+    }
+
+    #plotCanvas{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#fff;
+    }
+
+    .controls{
+      display:grid;
+      gap:10px;
+    }
+
+    .control-group{
+      padding:10px 12px;
+      background:#f9fbfd;
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+
+    .control-group label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-weight:700;
+      font-size:13px;
+      margin-bottom:6px;
+    }
+
+    .control-group input[type="range"],
+    .control-group select{
+      width:100%;
+      margin:0;
+      font-size:13px;
+    }
+
+    .mini-note{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:4px;
+    }
+
+    .small-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .metric{
+      padding:9px 10px;
+      border-radius:12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+    }
+
+    .metric .label{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:3px;
+    }
+
+    .metric .value{
+      font-size:14px;
+      font-weight:700;
+      color:#223348;
+      line-height:1.4;
+    }
+
+    .formula{
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:15px;
+      margin-bottom:8px;
+    }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:8px 10px;
+      font-size:14px;
+      margin-top:8px;
+    }
+
+    .kv div:nth-child(odd){
+      font-weight:700;
+      color:#243244;
+    }
+
+    .hint{
+      padding:10px 12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      color:#355070;
+      font-size:13px;
+    }
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      font-size:14px;
+    }
+
+    .list li{ margin-bottom:7px; }
+
+    .footer{
+      text-align:center;
+      padding:8px 0 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width:1080px){
+      .layout{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width:760px){
+      .hero h1{ font-size:30px; }
+      .subgrid,.small-grid{ grid-template-columns:1fr; }
+      .kv{ grid-template-columns:1fr; }
+      #apparatus3d{ height:320px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1>无限深势阱实验</h1>
+    <p>通过 3D 势阱结构、动态波函数与概率密度分布，直观理解定态、节点数与能级离散。</p>
+    <div class="hero-actions">
+      <a class="btn" href="college.html">返回大学模块</a>
+      <a class="btn primary" href="#interactive">进入交互实验</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="layout">
+    <div class="left-col">
+
+      <section class="card">
+        <h2>一、装置示意与动态传播（3D）</h2>
+        <p class="muted">该区域使用 Three.js 展示无限深势阱的空间示意：粒子被限制在 0 到 L 的区间内，势阱两侧势能无限高，阱内允许形成驻波型定态。</p>
+        <div class="viewer-wrap">
+          <div id="apparatus3d"></div>
+        </div>
+      </section>
+
+      <section class="card" id="interactive">
+        <h2>二、波函数与概率密度（持续动态）</h2>
+        <p class="muted">下方同时显示定态波函数 ψ(x) 和概率密度 |ψ(x)|²。波函数相位采用持续动态展示，更有“量子态不是粒子轨迹而是波函数”的感觉。</p>
+        <div class="viewer-wrap">
+          <canvas id="plotCanvas" width="960" height="520"></canvas>
+        </div>
+        <div style="margin-top:10px;" class="hint" id="phenomenonText">当前现象说明将在这里实时更新。</div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>三、公式说明</h2>
+            <div class="formula">势阱区间：0 &lt; x &lt; L</div>
+            <div class="formula">波函数：ψₙ(x)=√(2/L)·sin(nπx/L)</div>
+            <div class="formula">概率密度：|ψₙ(x)|²</div>
+            <div class="formula">能级：Eₙ ∝ n² / L²</div>
+          </div>
+          <div>
+            <h2>四、参数说明</h2>
+            <div class="kv">
+              <div>量子数 n</div><div>决定定态阶数与节点数。</div>
+              <div>阱宽 L</div><div>决定空间尺度与能级间距。</div>
+              <div>幅度缩放 A</div><div>只影响可视化显示高度，不改变物理规律。</div>
+              <div>动画速度</div><div>控制波函数相位演示速度。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>五、实验过程</h2>
+            <ol class="list">
+              <li>设定量子数 n，选择需要观察的定态。</li>
+              <li>设置阱宽 L，观察波函数空间分布变化。</li>
+              <li>观察 ψ(x) 的波形与 |ψ(x)|² 的概率分布。</li>
+              <li>比较不同 n 下节点数、波峰数与能级差异。</li>
+              <li>理解“粒子不是沿某条经典轨迹运动，而是由波函数描述状态”。</li>
+            </ol>
+          </div>
+          <div>
+            <h2>六、注意事项</h2>
+            <ul class="list">
+              <li>ψ(x) 可以为正也可以为负，但 |ψ(x)|² 永远非负。</li>
+              <li>节点位置处 ψ(x)=0，因此概率密度也为 0。</li>
+              <li>量子数 n 越大，节点越多，能量越高。</li>
+              <li>阱宽 L 越小，能级间距越大。</li>
+              <li>答辩时建议重点切换 n=1、2、3 的效果进行对比展示。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="right-col">
+      <section class="card">
+        <h2>七、参数调节面板</h2>
+        <div class="controls">
+
+          <div class="control-group">
+            <label><span>量子数 n</span><span id="nValue">1</span></label>
+            <input id="nSlider" type="range" min="1" max="8" value="1" step="1">
+            <div class="mini-note">n 越大，节点数越多。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>阱宽 L（nm）</span><span id="LValue">1.0 nm</span></label>
+            <input id="LSlider" type="range" min="0.5" max="5.0" value="1.0" step="0.1">
+            <div class="mini-note">L 决定空间范围和能级间距。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>显示幅度 A</span><span id="ampValue">1.00</span></label>
+            <input id="ampSlider" type="range" min="0.40" max="2.00" value="1.00" step="0.01">
+            <div class="mini-note">仅用于增强可视化高度。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>动画速度</span><span id="speedValue">1.00</span></label>
+            <input id="speedSlider" type="range" min="0.20" max="3.00" value="1.00" step="0.01">
+            <div class="mini-note">控制波函数动态相位演示速度。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>八、实时结果</h2>
+        <div class="small-grid">
+          <div class="metric">
+            <div class="label">节点数</div>
+            <div class="value" id="nodesText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">波峰数</div>
+            <div class="value" id="lobesText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">相对能级</div>
+            <div class="value" id="energyText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">当前态性质</div>
+            <div class="value" id="stateText">--</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>物能 · 无限深势阱实验页（动态版）</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+  const apparatusDiv = document.getElementById("apparatus3d");
+  const plotCanvas = document.getElementById("plotCanvas");
+  const pctx = plotCanvas.getContext("2d");
+
+  const nSlider = document.getElementById("nSlider");
+  const LSlider = document.getElementById("LSlider");
+  const ampSlider = document.getElementById("ampSlider");
+  const speedSlider = document.getElementById("speedSlider");
+
+  const nValue = document.getElementById("nValue");
+  const LValue = document.getElementById("LValue");
+  const ampValue = document.getElementById("ampValue");
+  const speedValue = document.getElementById("speedValue");
+
+  const nodesText = document.getElementById("nodesText");
+  const lobesText = document.getElementById("lobesText");
+  const energyText = document.getElementById("energyText");
+  const stateText = document.getElementById("stateText");
+  const phenomenonText = document.getElementById("phenomenonText");
+
+  function getParams(){
+    return {
+      n: parseInt(nSlider.value, 10),
+      Lnm: parseFloat(LSlider.value),
+      amp: parseFloat(ampSlider.value),
+      speed: parseFloat(speedSlider.value)
+    };
+  }
+
+  function updateLabels(p){
+    nValue.textContent = `${p.n}`;
+    LValue.textContent = `${p.Lnm.toFixed(1)} nm`;
+    ampValue.textContent = p.amp.toFixed(2);
+    speedValue.textContent = p.speed.toFixed(2);
+  }
+
+  // ===== Three.js 场景 =====
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf8fbff);
+
+  const camera = new THREE.PerspectiveCamera(45, apparatusDiv.clientWidth / apparatusDiv.clientHeight, 0.1, 100);
+  camera.position.set(-1.5, 2.6, 8.5);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(apparatusDiv.clientWidth, apparatusDiv.clientHeight);
+  apparatusDiv.appendChild(renderer.domElement);
+
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xdce8ff, 1.25);
+  scene.add(hemi);
+
+  const dir = new THREE.DirectionalLight(0xffffff, 0.95);
+  dir.position.set(4, 8, 6);
+  scene.add(dir);
+
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(18, 8),
+    new THREE.MeshPhongMaterial({ color: 0xeef3f9, side: THREE.DoubleSide })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.set(2.5, 0, 0);
+  scene.add(floor);
+
+  // 势阱边界
+  const wallMat = new THREE.MeshPhongMaterial({ color: 0x5b6bff, transparent:true, opacity:0.55 });
+  const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.14, 3.0, 1.8), wallMat);
+  const rightWall = leftWall.clone();
+  scene.add(leftWall, rightWall);
+
+  // 阱底
+  const wellBase = new THREE.Mesh(
+    new THREE.BoxGeometry(5.0, 0.06, 1.5),
+    new THREE.MeshPhongMaterial({ color: 0x99c2ff })
+  );
+  wellBase.position.set(1.5, 0.4, 0);
+  scene.add(wellBase);
+
+  // 波函数线条（3D）
+  const psiMaterial = new THREE.LineBasicMaterial({ color: 0xff7f11 });
+  const psiGeometry = new THREE.BufferGeometry();
+  const psiPoints = new Float32Array(300 * 3);
+  psiGeometry.setAttribute("position", new THREE.BufferAttribute(psiPoints, 3));
+  const psiLine = new THREE.Line(psiGeometry, psiMaterial);
+  scene.add(psiLine);
+
+  // 概率密度柱条 group
+  const probBars = new THREE.Group();
+  scene.add(probBars);
+
+  function resetBars(count=40){
+    while(probBars.children.length) probBars.remove(probBars.children[0]);
+    for(let i=0;i<count;i++){
+      const bar = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.08, 0.20),
+        new THREE.MeshPhongMaterial({ color: 0x22aa88, transparent:true, opacity:0.85 })
+      );
+      probBars.add(bar);
+    }
+  }
+  resetBars();
+
+  function update3D(p, t){
+    const n = p.n;
+    const L = p.Lnm; // 这里只是显示量纲，实际可视化按比例处理
+    const amp = p.amp;
+
+    const visualL = 4.8;         // Three.js 中的阱宽显示长度
+    const x0 = -0.9;
+    const x1 = x0 + visualL;
+
+    leftWall.position.set(x0, 1.5, 0);
+    rightWall.position.set(x1, 1.5, 0);
+    wellBase.position.set((x0 + x1)/2, 0.4, 0);
+
+    const pos = psiGeometry.attributes.position.array;
+    const N = 300;
+
+    for(let i=0;i<N;i++){
+      const s = i / (N - 1);
+      const x = s * visualL;
+      const psi = Math.sin(n * Math.PI * s);
+      const phase = Math.cos(t * 2.2 * p.speed);
+      const y = 1.0 + psi * 0.9 * amp * phase;
+
+      pos[3*i]   = x0 + x;
+      pos[3*i+1] = y;
+      pos[3*i+2] = 0;
+    }
+    psiGeometry.attributes.position.needsUpdate = true;
+
+    const barCount = probBars.children.length;
+    for(let i=0;i<barCount;i++){
+      const s = i / (barCount - 1);
+      const psi = Math.sin(n * Math.PI * s);
+      const prob = psi * psi;
+      const bar = probBars.children[i];
+      const h = Math.max(0.03, prob * 1.35 * amp);
+
+      bar.position.x = x0 + s * visualL;
+      bar.position.y = 0.45 + h / 2;
+      bar.position.z = 0.55;
+      bar.scale.y = h / 0.08;
+    }
+  }
+
+  function drawPlot(p, t){
+    const ctx = pctx;
+    const w = plotCanvas.width;
+    const h = plotCanvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,w,h);
+
+    const left = 90;
+    const right = w - 60;
+    const top = 80;
+    const bottom = h - 70;
+    const axisY = h * 0.36;
+    const probBaseY = h * 0.75;
+    const width = right - left;
+
+    ctx.fillStyle = "#1f2a37";
+    ctx.font = "bold 24px Microsoft YaHei";
+    ctx.textAlign = "center";
+    ctx.fillText("无限深势阱中的定态波函数与概率密度", w/2, 34);
+
+    ctx.fillStyle = "#5f6b7a";
+    ctx.font = "15px Microsoft YaHei";
+    ctx.fillText(`n=${p.n}   L=${p.Lnm.toFixed(1)} nm   A=${p.amp.toFixed(2)}`, w/2, 58);
+
+    // 上半图：波函数
+    ctx.strokeStyle = "#111";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(left, axisY);
+    ctx.lineTo(right, axisY);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#ff7f11";
+    ctx.lineWidth = 2.4;
+    ctx.beginPath();
+
+    const N = 700;
+    const phase = Math.cos(t * 2.2 * p.speed);
+    for(let i=0;i<N;i++){
+      const s = i / (N - 1);
+      const x = left + s * width;
+      const psi = Math.sin(p.n * Math.PI * s) * p.amp * phase;
+      const y = axisY - psi * 65;
+
+      if(i===0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // 势阱边界
+    ctx.strokeStyle = "#5b6bff";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(left, axisY - 90);
+    ctx.lineTo(left, axisY + 90);
+    ctx.moveTo(right, axisY - 90);
+    ctx.lineTo(right, axisY + 90);
+    ctx.stroke();
+
+    // 下半图：概率密度
+    ctx.strokeStyle = "#111";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(left, probBaseY);
+    ctx.lineTo(right, probBaseY);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#22aa88";
+    ctx.lineWidth = 2.6;
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const s = i / (N - 1);
+      const x = left + s * width;
+      const psi = Math.sin(p.n * Math.PI * s);
+      const prob = psi * psi * p.amp;
+      const y = probBaseY - prob * 75;
+      if(i===0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // labels
+    ctx.fillStyle = "#1f2a37";
+    ctx.font = "16px Microsoft YaHei";
+    ctx.fillText("波函数 ψ(x)", w/2, axisY - 105);
+    ctx.fillText("概率密度 |ψ(x)|²", w/2, probBaseY - 105);
+
+    ctx.font = "14px Microsoft YaHei";
+    ctx.fillText("0", left, probBaseY + 25);
+    ctx.fillText("L", right, probBaseY + 25);
+
+    // 节点虚线
+    ctx.setLineDash([5,5]);
+    ctx.strokeStyle = "rgba(120,120,120,0.55)";
+    for(let k=1;k<p.n;k++){
+      const s = k / p.n;
+      const x = left + s * width;
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  function updateText(p){
+    const nodes = p.n - 1;
+    const lobes = p.n;
+    const energy = (p.n * p.n / (p.Lnm * p.Lnm)).toFixed(2);
+
+    nodesText.textContent = `${nodes}`;
+    lobesText.textContent = `${lobes}`;
+    energyText.textContent = `∝ ${energy}`;
+    stateText.textContent = `${p.n} 阶定态`;
+
+    phenomenonText.innerHTML =
+      `当前量子数为 <strong>n=${p.n}</strong>，因此波函数存在 <strong>${nodes} 个节点</strong>，概率密度分布形成 <strong>${lobes} 个主峰</strong>。` +
+      ` 当阱宽为 <strong>${p.Lnm.toFixed(1)} nm</strong> 时，相对能级满足 <strong>Eₙ ∝ n²/L²</strong>。` +
+      ` 这说明量子数越高，能量越高，节点越多，而阱越窄，能级间距越大。`;
+  }
+
+  function resizeRenderer(){
+    const w = apparatusDiv.clientWidth;
+    const h = apparatusDiv.clientHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resizeRenderer);
+
+  [nSlider, LSlider, ampSlider, speedSlider].forEach(el => {
+    el.addEventListener("input", () => updateLabels(getParams()));
+  });
+
+  updateLabels(getParams());
+  const clock = new THREE.Clock();
+
+  function animate(){
+    const t = clock.getElapsedTime();
+    const p = getParams();
+
+    updateLabels(p);
+    update3D(p, t);
+    drawPlot(p, t);
+    updateText(p);
+
+    camera.position.x = Math.cos(t * 0.10) * 7.5 - 0.2;
+    camera.position.z = Math.sin(t * 0.10) * 7.5;
+    camera.position.y = 2.4;
+    camera.lookAt(1.4, 1.2, 0);
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+</body>
+</html>
