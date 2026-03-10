@@ -168,7 +168,12 @@ main{
 }
 
 .stage-card .btn{
-  margin-top: 14px;
+  margin-top: 12px;
+}
+
+.hero-actions .btn{
+  min-width: 110px;
+  text-align: center;
 }
 
 .stage-card:hover{
@@ -259,4 +264,5 @@ main{
     grid-template-columns:1fr;
   }
 }
+
 
