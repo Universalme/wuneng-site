@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>透镜成像实验 · 物能 · 3D版</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#1f2a37;
+      --muted:#5f6b7a;
+      --line:#dbe3ec;
+      --primary:#1f6feb;
+      --primary-dark:#1659bb;
+      --soft:#eaf3ff;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{ text-decoration:none; color:inherit; }
+
+    .container{
+      width:min(1280px, calc(100% - 24px));
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:34px 0 18px;
+      background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 58%,#eef5ff 100%);
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero h1{
+      margin:0;
+      text-align:center;
+      font-size:36px;
+    }
+
+    .hero p{
+      margin:8px auto 0;
+      max-width:920px;
+      text-align:center;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:700;
+      font-size:14px;
+      transition:.2s ease;
+    }
+
+    .btn.primary{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+
+    main{
+      padding:16px 0 24px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:1.6fr 0.9fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .left-col,.right-col{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .card h2{
+      margin:0 0 8px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:18px;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .viewer-wrap{
+      width:100%;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    #apparatus3d{
+      width:100%;
+      height:390px;
+      background:linear-gradient(180deg,#fbfdff 0%,#f3f8ff 100%);
+    }
+
+    #plotCanvas{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#fff;
+    }
+
+    .controls{
+      display:grid;
+      gap:10px;
+    }
+
+    .control-group{
+      padding:10px 12px;
+      background:#f9fbfd;
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+
+    .control-group label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-weight:700;
+      font-size:13px;
+      margin-bottom:6px;
+    }
+
+    .control-group input[type="range"],
+    .control-group select{
+      width:100%;
+      margin:0;
+      font-size:13px;
+    }
+
+    .mini-note{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:4px;
+    }
+
+    .small-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .metric{
+      padding:9px 10px;
+      border-radius:12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+    }
+
+    .metric .label{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:3px;
+    }
+
+    .metric .value{
+      font-size:14px;
+      font-weight:700;
+      color:#223348;
+      line-height:1.4;
+    }
+
+    .formula{
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:15px;
+      margin-bottom:8px;
+    }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:8px 10px;
+      font-size:14px;
+      margin-top:8px;
+    }
+
+    .kv div:nth-child(odd){
+      font-weight:700;
+      color:#243244;
+    }
+
+    .hint{
+      padding:10px 12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      color:#355070;
+      font-size:13px;
+    }
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      font-size:14px;
+    }
+
+    .list li{ margin-bottom:7px; }
+
+    .footer{
+      text-align:center;
+      padding:8px 0 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width:1080px){
+      .layout{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width:760px){
+      .hero h1{ font-size:30px; }
+      .subgrid,.small-grid{ grid-template-columns:1fr; }
+      .kv{ grid-template-columns:1fr; }
+      #apparatus3d{ height:320px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1>透镜成像实验</h1>
+    <p>支持更换透镜类型、调节焦距与物距，实时观察光路、成像位置、像的正倒与放大缩小变化。</p>
+    <div class="hero-actions">
+      <a class="btn" href="junior.html">返回初中模块</a>
+      <a class="btn primary" href="#interactive">进入交互实验</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="layout">
+    <div class="left-col">
+
+      <section class="card">
+        <h2>一、装置示意与动态传播（3D）</h2>
+        <p class="muted">该区域使用 Three.js 构建透镜成像 3D 场景，包含物体、透镜、主光轴、屏幕/像区以及动态光线路径。</p>
+        <div class="viewer-wrap">
+          <div id="apparatus3d"></div>
+        </div>
+      </section>
+
+      <section class="card" id="interactive">
+        <h2>二、成像结果与实时现象（持续动态）</h2>
+        <p class="muted">下方图示持续动态显示物体、透镜、焦点、像的位置与主光线，参数变化后会实时联动更新。</p>
+        <div class="viewer-wrap">
+          <canvas id="plotCanvas" width="960" height="500"></canvas>
+        </div>
+        <div style="margin-top:10px;" class="hint" id="phenomenonText">当前现象说明将在这里实时更新。</div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>三、公式说明</h2>
+            <div class="formula">薄透镜公式：1/f = 1/u + 1/v</div>
+            <div class="formula">放大率：m = -v / u</div>
+            <div class="formula">凸透镜：f &gt; 0，可形成实像或虚像</div>
+            <div class="formula">凹透镜：f &lt; 0，通常形成正立缩小虚像</div>
+          </div>
+          <div>
+            <h2>四、参数说明</h2>
+            <div class="kv">
+              <div>透镜类型</div><div>可选择凸透镜或凹透镜。</div>
+              <div>焦距 f</div><div>决定透镜会聚/发散能力。</div>
+              <div>物距 u</div><div>物体到透镜的距离。</div>
+              <div>物高 h</div><div>物体高度，影响像的绝对高度。</div>
+              <div>速度 v</div><div>控制装置区光线动画速度。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>五、实验过程</h2>
+            <ol class="list">
+              <li>选择透镜类型：凸透镜或凹透镜。</li>
+              <li>设置焦距与物距，观察主光线传播路径。</li>
+              <li>观察像的位置、大小、正倒变化。</li>
+              <li>比较不同透镜类型下成像差异。</li>
+              <li>结合薄透镜公式分析实验结果。</li>
+            </ol>
+          </div>
+          <div>
+            <h2>六、注意事项</h2>
+            <ul class="list">
+              <li>凸透镜在不同物距下会出现实像、虚像、放大或缩小。</li>
+              <li>凹透镜通常只成正立缩小虚像。</li>
+              <li>当物体靠近凸透镜焦点时，成像变化非常明显。</li>
+              <li>答辩时建议现场切换透镜类型进行对比展示。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="right-col">
+      <section class="card">
+        <h2>七、参数调节面板</h2>
+        <div class="controls">
+
+          <div class="control-group">
+            <label><span>透镜类型</span><span id="lensTypeValue">凸透镜</span></label>
+            <select id="lensTypeSelect">
+              <option value="convex">凸透镜</option>
+              <option value="concave">凹透镜</option>
+            </select>
+            <div class="mini-note">可实时切换透镜类型。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>焦距 |f|（cm）</span><span id="fValue">10.0 cm</span></label>
+            <input id="fSlider" type="range" min="4" max="30" value="10" step="0.1">
+            <div class="mini-note">焦距越小，透镜作用越强。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>物距 u（cm）</span><span id="uValue">25.0 cm</span></label>
+            <input id="uSlider" type="range" min="3" max="60" value="25" step="0.1">
+            <div class="mini-note">物体到透镜的距离。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>物高 h（cm）</span><span id="hValue">6.0 cm</span></label>
+            <input id="hSlider" type="range" min="2" max="14" value="6" step="0.1">
+            <div class="mini-note">影响像的绝对高度。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>动画速度</span><span id="speedValue">1.00</span></label>
+            <input id="speedSlider" type="range" min="0.20" max="3.00" value="1.00" step="0.01">
+            <div class="mini-note">控制装置区光线路径动画速度。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>八、实时结果</h2>
+        <div class="small-grid">
+          <div class="metric">
+            <div class="label">像距 v</div>
+            <div class="value" id="vText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">放大率 m</div>
+            <div class="value" id="mText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">像的性质</div>
+            <div class="value" id="imageTypeText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">像的方向</div>
+            <div class="value" id="orientationText">--</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>物能 · 透镜成像实验页（支持更换透镜）</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+  const apparatusDiv = document.getElementById("apparatus3d");
+  const plotCanvas = document.getElementById("plotCanvas");
+  const pctx = plotCanvas.getContext("2d");
+
+  const lensTypeSelect = document.getElementById("lensTypeSelect");
+  const fSlider = document.getElementById("fSlider");
+  const uSlider = document.getElementById("uSlider");
+  const hSlider = document.getElementById("hSlider");
+  const speedSlider = document.getElementById("speedSlider");
+
+  const lensTypeValue = document.getElementById("lensTypeValue");
+  const fValue = document.getElementById("fValue");
+  const uValue = document.getElementById("uValue");
+  const hValue = document.getElementById("hValue");
+  const speedValue = document.getElementById("speedValue");
+
+  const vText = document.getElementById("vText");
+  const mText = document.getElementById("mText");
+  const imageTypeText = document.getElementById("imageTypeText");
+  const orientationText = document.getElementById("orientationText");
+  const phenomenonText = document.getElementById("phenomenonText");
+
+  function getParams(){
+    return {
+      lensType: lensTypeSelect.value,
+      fAbs: parseFloat(fSlider.value),
+      u: parseFloat(uSlider.value),
+      h: parseFloat(hSlider.value),
+      speed: parseFloat(speedSlider.value)
+    };
+  }
+
+  function updateLabels(p){
+    lensTypeValue.textContent = p.lensType === "convex" ? "凸透镜" : "凹透镜";
+    fValue.textContent = `${p.fAbs.toFixed(1)} cm`;
+    uValue.textContent = `${p.u.toFixed(1)} cm`;
+    hValue.textContent = `${p.h.toFixed(1)} cm`;
+    speedValue.textContent = p.speed.toFixed(2);
+  }
+
+  function solveImage(p){
+    const f = p.lensType === "convex" ? p.fAbs : -p.fAbs;
+    const u = p.u;
+
+    const denom = (1 / f) - (1 / u);
+    let v;
+    if (Math.abs(denom) < 1e-8) {
+      v = 1e9;
+    } else {
+      v = 1 / denom;
+    }
+
+    const m = -v / u;
+    const hi = m * p.h;
+
+    let imageType = "";
+    let orientation = "";
+
+    if (v > 0) imageType = "实像";
+    else imageType = "虚像";
+
+    if (m < 0) orientation = "倒立";
+    else orientation = "正立";
+
+    return { f, v, m, hi, imageType, orientation };
+  }
+
+  // ===== Three.js =====
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf8fbff);
+
+  const camera = new THREE.PerspectiveCamera(45, apparatusDiv.clientWidth / apparatusDiv.clientHeight, 0.1, 100);
+  camera.position.set(-1.8, 2.3, 8.5);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(apparatusDiv.clientWidth, apparatusDiv.clientHeight);
+  apparatusDiv.appendChild(renderer.domElement);
+
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xdce8ff, 1.25);
+  scene.add(hemi);
+
+  const dir = new THREE.DirectionalLight(0xffffff, 0.95);
+  dir.position.set(4, 8, 6);
+  scene.add(dir);
+
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(18, 8),
+    new THREE.MeshPhongMaterial({ color: 0xeef3f9, side: THREE.DoubleSide })
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.set(2.5, 0, 0);
+  scene.add(floor);
+
+  const axisLine = new THREE.Mesh(
+    new THREE.BoxGeometry(12, 0.03, 0.03),
+    new THREE.MeshBasicMaterial({ color: 0x333333 })
+  );
+  axisLine.position.set(1.5, 1.5, 0);
+  scene.add(axisLine);
+
+  // object arrow
+  const objectGroup = new THREE.Group();
+  const objectRod = new THREE.Mesh(
+    new THREE.BoxGeometry(0.06, 1.2, 0.06),
+    new THREE.MeshPhongMaterial({ color: 0x22aa55 })
+  );
+  const objectTip = new THREE.Mesh(
+    new THREE.ConeGeometry(0.14, 0.3, 24),
+    new THREE.MeshPhongMaterial({ color: 0x22aa55 })
+  );
+  objectTip.position.y = 0.75;
+  objectGroup.add(objectRod, objectTip);
+  scene.add(objectGroup);
+
+  // image arrow
+  const imageGroup = new THREE.Group();
+  const imageRod = new THREE.Mesh(
+    new THREE.BoxGeometry(0.06, 1.2, 0.06),
+    new THREE.MeshPhongMaterial({ color: 0xaa33aa, transparent: true, opacity: 0.85 })
+  );
+  const imageTip = new THREE.Mesh(
+    new THREE.ConeGeometry(0.14, 0.3, 24),
+    new THREE.MeshPhongMaterial({ color: 0xaa33aa, transparent: true, opacity: 0.85 })
+  );
+  imageGroup.add(imageRod, imageTip);
+  scene.add(imageGroup);
+
+  // lens
+  const lensGroup = new THREE.Group();
+  const lensMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(0.6, 32, 32),
+    new THREE.MeshPhongMaterial({
+      color: 0x77b5ff,
+      transparent: true,
+      opacity: 0.42,
+      shininess: 80
+    })
+  );
+  lensMesh.scale.set(0.35, 1.45, 1.1);
+  lensGroup.add(lensMesh);
+  lensGroup.position.set(0, 1.5, 0);
+  scene.add(lensGroup);
+
+  // focal markers
+  const fLeft = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 16), new THREE.MeshBasicMaterial({ color: 0xff4444 }));
+  const fRight = fLeft.clone();
+  scene.add(fLeft, fRight);
+
+  // light rays
+  function makeRay(color){
+    const mat = new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.95 });
+    const geo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0,0,0),
+      new THREE.Vector3(1,1,0)
+    ]);
+    return new THREE.Line(geo, mat);
+  }
+
+  const ray1a = makeRay(0xffa500);
+  const ray1b = makeRay(0xffa500);
+  const ray2a = makeRay(0xffa500);
+  const ray2b = makeRay(0xffa500);
+  const ray3a = makeRay(0xffa500);
+  const ray3b = makeRay(0xffa500);
+
+  scene.add(ray1a, ray1b, ray2a, ray2b, ray3a, ray3b);
+
+  function setLine(line, p1, p2){
+    line.geometry.setFromPoints([p1, p2]);
+    line.geometry.attributes.position.needsUpdate = true;
+  }
+
+  function update3D(p, s){
+    const { f, v, hi } = s;
+
+    const scaleX = 0.12;   // 1 cm -> 0.12 scene units
+    const scaleY = 0.12;
+
+    // object
+    const objX = -p.u * scaleX;
+    objectGroup.position.set(objX, 1.5 + (p.h * scaleY)/2, 0);
+    objectRod.scale.y = Math.max(0.1, p.h * scaleY / 1.2);
+    objectTip.position.y = (p.h * scaleY)/2 + 0.15;
+
+    // lens shape switch
+    if (p.lensType === "convex") {
+      lensMesh.scale.set(0.35, 1.45, 1.1);
+    } else {
+      lensMesh.scale.set(0.18, 1.45, 1.1);
+    }
+
+    // focal points
+    const fx = Math.abs(f) * scaleX;
+    fLeft.position.set(-fx, 1.5, 0);
+    fRight.position.set(fx, 1.5, 0);
+
+    // image
+    const imgDisplayX = Math.max(-90, Math.min(90, v)) * scaleX;
+    const imgYAbs = Math.abs(hi * scaleY);
+
+    imageGroup.position.set(imgDisplayX, 1.5 + (hi * scaleY)/2, 0);
+    imageRod.scale.y = Math.max(0.08, imgYAbs / 1.2);
+
+    if (hi >= 0) {
+      imageTip.position.y = imgYAbs/2 + 0.15;
+      imageTip.rotation.z = 0;
+    } else {
+      imageTip.position.y = -imgYAbs/2 - 0.15;
+      imageTip.rotation.z = Math.PI;
+    }
+
+    // rays from object tip
+    const objTip = new THREE.Vector3(objX, 1.5 + p.h * scaleY, 0);
+    const lensCenter = new THREE.Vector3(0, 1.5, 0);
+    const imgTip = new THREE.Vector3(imgDisplayX, 1.5 + hi * scaleY, 0);
+
+    // ray 1: parallel to axis then refract
+    const hit1 = new THREE.Vector3(0, objTip.y, 0);
+    setLine(ray1a, objTip, hit1);
+
+    if (p.lensType === "convex") {
+      setLine(ray1b, hit1, imgTip);
+    } else {
+      setLine(ray1b, hit1, new THREE.Vector3(3.8, objTip.y - 0.5, 0));
+    }
+
+    // ray 2: through center
+    setLine(ray2a, objTip, lensCenter);
+    setLine(ray2b, lensCenter, imgTip);
+
+    // ray 3: through focus then refract parallel / reverse logic
+    if (p.lensType === "convex") {
+      const leftFocus = new THREE.Vector3(-fx, 1.5, 0);
+      setLine(ray3a, objTip, leftFocus);
+      setLine(ray3b, lensCenter, new THREE.Vector3(4.4, 1.5 + (objTip.y - 1.5), 0));
+    } else {
+      const rightFocus = new THREE.Vector3(fx, 1.5, 0);
+      setLine(ray3a, objTip, lensCenter);
+      setLine(ray3b, lensCenter, new THREE.Vector3(4.2, 1.5 + 0.6, 0));
+    }
+  }
+
+  function drawPlot(p, s, t){
+    const ctx = pctx;
+    const w = plotCanvas.width;
+    const h = plotCanvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,w,h);
+
+    const left = 80;
+    const right = w - 60;
+    const midX = w / 2;
+    const axisY = h * 0.65;
+    const topY = 70;
+
+    function mapX(cm){
+      return midX + cm * 8;
+    }
+    function mapY(cm){
+      return axisY - cm * 18;
+    }
+
+    ctx.fillStyle = "#1f2a37";
+    ctx.font = "bold 24px Microsoft YaHei";
+    ctx.textAlign = "center";
+    ctx.fillText("透镜成像关系图", w/2, 34);
+
+    ctx.fillStyle = "#5f6b7a";
+    ctx.font = "15px Microsoft YaHei";
+    ctx.fillText(`${p.lensType === "convex" ? "凸透镜" : "凹透镜"}   f=${s.f.toFixed(1)} cm   u=${p.u.toFixed(1)} cm`, w/2, 58);
+
+    // axis
+    ctx.strokeStyle = "#111";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(left, axisY);
+    ctx.lineTo(right, axisY);
+    ctx.stroke();
+
+    // lens line
+    ctx.strokeStyle = "#2f6fff";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(midX, 95);
+    ctx.lineTo(midX, h - 80);
+    ctx.stroke();
+
+    // lens label
+    ctx.fillStyle = "#2f6fff";
+    ctx.font = "bold 15px Microsoft YaHei";
+    ctx.fillText(p.lensType === "convex" ? "凸透镜" : "凹透镜", midX, h - 42);
+
+    // focal points
+    const fx = Math.abs(s.f);
+    ctx.fillStyle = "#d83b01";
+    ctx.beginPath();
+    ctx.arc(mapX(-fx), axisY, 5, 0, Math.PI*2);
+    ctx.arc(mapX(fx), axisY, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.font = "14px Microsoft YaHei";
+    ctx.fillText("F", mapX(-fx), axisY + 22);
+    ctx.fillText("F'", mapX(fx), axisY + 22);
+
+    // object
+    const objX = mapX(-p.u);
+    const objTopY = mapY(p.h);
+    ctx.strokeStyle = "#1fa055";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(objX, axisY);
+    ctx.lineTo(objX, objTopY);
+    ctx.stroke();
+    drawArrowHead(ctx, objX, objTopY, "#1fa055", "up");
+
+    // image
+    const imgX = mapX(Math.max(-50, Math.min(50, s.v)));
+    const imgTopY = mapY(s.hi);
+    ctx.strokeStyle = "#a23cb8";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(imgX, axisY);
+    ctx.lineTo(imgX, imgTopY);
+    ctx.stroke();
+    drawArrowHead(ctx, imgX, imgTopY, "#a23cb8", s.hi >= 0 ? "up" : "down");
+
+    // dynamic rays
+    const pulse = 0.5 + 0.5 * Math.sin(t * 4 * p.speed);
+
+    ctx.strokeStyle = `rgba(255,140,0,${0.75 + 0.2*pulse})`;
+    ctx.lineWidth = 2;
+
+    const objTip = {x: objX, y: objTopY};
+    const lensHit1 = {x: midX, y: objTopY};
+    const lensCenter = {x: midX, y: axisY};
+    const imgTip = {x: imgX, y: imgTopY};
+
+    // ray 1
+    drawLine(ctx, objTip.x, objTip.y, lensHit1.x, lensHit1.y);
+    if (p.lensType === "convex") {
+      drawLine(ctx, lensHit1.x, lensHit1.y, imgTip.x, imgTip.y);
+    } else {
+      drawLine(ctx, lensHit1.x, lensHit1.y, right - 30, lensHit1.y - 20);
+    }
+
+    // ray 2
+    drawLine(ctx, objTip.x, objTip.y, lensCenter.x, lensCenter.y);
+    drawLine(ctx, lensCenter.x, lensCenter.y, imgTip.x, imgTip.y);
+
+    // ray 3
+    if (p.lensType === "convex") {
+      drawLine(ctx, objTip.x, objTip.y, mapX(-fx), axisY);
+      drawLine(ctx, midX, axisY, right - 30, objTip.y);
+    } else {
+      drawLine(ctx, objTip.x, objTip.y, midX, axisY);
+      drawLine(ctx, midX, axisY, right - 30, axisY - 35);
+    }
+
+    // labels
+    ctx.fillStyle = "#1f2a37";
+    ctx.font = "14px Microsoft YaHei";
+    ctx.fillText("物", objX, objTopY - 14);
+    ctx.fillText("像", imgX, imgTopY - 14);
+  }
+
+  function drawLine(ctx, x1, y1, x2, y2){
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+  }
+
+  function drawArrowHead(ctx, x, y, color, dir){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    if (dir === "up") {
+      ctx.moveTo(x, y - 12);
+      ctx.lineTo(x - 8, y + 4);
+      ctx.lineTo(x + 8, y + 4);
+    } else {
+      ctx.moveTo(x, y + 12);
+      ctx.lineTo(x - 8, y - 4);
+      ctx.lineTo(x + 8, y - 4);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function updateText(p, s){
+    const vShow = Math.abs(s.v) > 1e6 ? "∞" : `${s.v.toFixed(2)} cm`;
+    const mShow = Math.abs(s.m) > 1e6 ? "∞" : s.m.toFixed(2);
+
+    vText.textContent = vShow;
+    mText.textContent = mShow;
+    imageTypeText.textContent = s.imageType;
+    orientationText.textContent = s.orientation;
+
+    phenomenonText.innerHTML =
+      `当前使用的是 <strong>${p.lensType === "convex" ? "凸透镜" : "凹透镜"}</strong>，焦距大小为 <strong>${p.fAbs.toFixed(1)} cm</strong>，物距为 <strong>${p.u.toFixed(1)} cm</strong>。` +
+      ` 计算得到像距约为 <strong>${vShow}</strong>，放大率约为 <strong>${mShow}</strong>，因此像的性质为 <strong>${s.imageType}</strong>，方向为 <strong>${s.orientation}</strong>。`;
+  }
+
+  function resizeRenderer(){
+    const w = apparatusDiv.clientWidth;
+    const h = apparatusDiv.clientHeight;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resizeRenderer);
+
+  [lensTypeSelect, fSlider, uSlider, hSlider, speedSlider].forEach(el => {
+    el.addEventListener("input", () => updateLabels(getParams()));
+  });
+
+  updateLabels(getParams());
+
+  const clock = new THREE.Clock();
+
+  function animate(){
+    const t = clock.getElapsedTime();
+    const p = getParams();
+    const s = solveImage(p);
+
+    updateLabels(p);
+    update3D(p, s);
+    drawPlot(p, s, t);
+    updateText(p, s);
+
+    // simple 3D animation
+    sourceGlow(t, p.speed);
+
+    camera.position.x = Math.cos(t * 0.10) * 8.0 - 0.6;
+    camera.position.z = Math.sin(t * 0.10) * 8.0;
+    camera.position.y = 2.4;
+    camera.lookAt(1.0, 1.5, 0);
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+
+  function sourceGlow(t, speed){
+    const pulse = 1 + 0.12 * Math.sin(t * 4 * speed);
+    lensGroup.scale.set(pulse, 1, 1);
+  }
+
+  animate();
+</script>
+</body>
+</html>
