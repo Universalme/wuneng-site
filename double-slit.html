@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>双缝干涉实验 · 物能 · Three.js 3D版</title>
+  <title>双缝干涉实验 · 物能 · 3D修正版</title>
   <style>
     :root{
       --bg:#f4f7fb;
@@ -19,8 +19,6 @@
     }
 
     *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-
     body{
       margin:0;
       font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
@@ -37,7 +35,7 @@
     }
 
     .hero{
-      padding:38px 0 20px;
+      padding:34px 0 18px;
       background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 58%,#eef5ff 100%);
       border-bottom:1px solid var(--line);
     }
@@ -45,13 +43,12 @@
     .hero h1{
       margin:0;
       text-align:center;
-      font-size:38px;
-      line-height:1.15;
+      font-size:36px;
     }
 
     .hero p{
-      margin:10px auto 0;
-      max-width:920px;
+      margin:8px auto 0;
+      max-width:900px;
       text-align:center;
       color:var(--muted);
       font-size:15px;
@@ -61,7 +58,7 @@
       display:flex;
       justify-content:center;
       gap:10px;
-      margin-top:16px;
+      margin-top:14px;
       flex-wrap:wrap;
     }
 
@@ -76,34 +73,29 @@
       transition:.2s ease;
     }
 
-    .btn:hover{
-      transform:translateY(-2px);
-      box-shadow:var(--shadow);
-    }
-
     .btn.primary{
       background:var(--primary);
       color:#fff;
       border-color:var(--primary);
     }
 
-    .btn.primary:hover{
-      background:var(--primary-dark);
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
     }
 
     main{
-      padding:16px 0 26px;
+      padding:16px 0 24px;
     }
 
     .layout{
       display:grid;
-      grid-template-columns: 1.62fr 0.88fr;
+      grid-template-columns:1.6fr 0.9fr;
       gap:14px;
       align-items:start;
     }
 
-    .left-col,
-    .right-col{
+    .left-col,.right-col{
       display:flex;
       flex-direction:column;
       gap:14px;
@@ -120,71 +112,16 @@
     .card h2{
       margin:0 0 8px;
       font-size:21px;
-      line-height:1.3;
     }
 
     .card h3{
       margin:0 0 8px;
       font-size:18px;
-      line-height:1.3;
     }
 
     .muted{
       color:var(--muted);
       font-size:14px;
-    }
-
-    .subgrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-
-    .formula{
-      background:#f8fbff;
-      border:1px solid #dce9ff;
-      border-radius:12px;
-      padding:10px 12px;
-      font-size:15px;
-      margin-bottom:8px;
-    }
-
-    .kv{
-      display:grid;
-      grid-template-columns: 122px 1fr;
-      gap:8px 10px;
-      font-size:14px;
-      margin-top:8px;
-    }
-
-    .kv div:nth-child(odd){
-      font-weight:700;
-      color:#243244;
-    }
-
-    .tag-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-
-    .tag{
-      background:var(--soft);
-      color:var(--primary-dark);
-      border-radius:999px;
-      padding:5px 10px;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .hint{
-      padding:10px 12px;
-      background:#f8fbff;
-      border:1px solid #dce9ff;
-      border-radius:12px;
-      color:#355070;
-      font-size:13px;
     }
 
     .viewer-wrap{
@@ -243,7 +180,7 @@
 
     .small-grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:1fr 1fr;
       gap:8px;
     }
 
@@ -267,15 +204,50 @@
       line-height:1.4;
     }
 
+    .formula{
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:15px;
+      margin-bottom:8px;
+    }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:8px 10px;
+      font-size:14px;
+      margin-top:8px;
+    }
+
+    .kv div:nth-child(odd){
+      font-weight:700;
+      color:#243244;
+    }
+
+    .hint{
+      padding:10px 12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      color:#355070;
+      font-size:13px;
+    }
+
     .list{
       margin:0;
       padding-left:18px;
       font-size:14px;
     }
 
-    .list li{
-      margin-bottom:7px;
-    }
+    .list li{ margin-bottom:7px; }
 
     .footer{
       text-align:center;
@@ -284,29 +256,15 @@
       font-size:13px;
     }
 
-    @media (max-width: 1080px){
-      .layout{
-        grid-template-columns:1fr;
-      }
+    @media (max-width:1080px){
+      .layout{ grid-template-columns:1fr; }
     }
 
-    @media (max-width: 760px){
-      .hero h1{
-        font-size:30px;
-      }
-
-      .subgrid,
-      .small-grid{
-        grid-template-columns:1fr;
-      }
-
-      .kv{
-        grid-template-columns:1fr;
-      }
-
-      #apparatus3d{
-        height:320px;
-      }
+    @media (max-width:760px){
+      .hero h1{ font-size:30px; }
+      .subgrid,.small-grid{ grid-template-columns:1fr; }
+      .kv{ grid-template-columns:1fr; }
+      #apparatus3d{ height:320px; }
     }
   </style>
 </head>
@@ -315,7 +273,7 @@
 <header class="hero">
   <div class="container">
     <h1>双缝干涉实验</h1>
-    <p>真 3D 装置演示 + 动态条纹分布 + 实时参数联动。拖动参数后，装置区和条纹区都会保持持续动画。</p>
+    <p>3D 装置演示 + 动态条纹分布 + 实时参数联动</p>
     <div class="hero-actions">
       <a class="btn" href="senior.html">返回高中模块</a>
       <a class="btn primary" href="#interactive">进入交互实验</a>
@@ -325,42 +283,23 @@
 
 <main class="container">
   <div class="layout">
-
     <div class="left-col">
 
       <section class="card">
         <h2>一、装置示意与动态传播（3D）</h2>
-        <p class="muted">
-          该区域使用 Three.js 构建真实 3D 场景，包含光源、双缝板、屏幕、空间地面与持续动态波前。
-          你可以把它作为比赛中的“炫酷演示区”。
-        </p>
-
+        <p class="muted">该区域为 Three.js 3D 场景，包含光源、双缝板、屏幕和持续动态波前。</p>
         <div class="viewer-wrap">
           <div id="apparatus3d"></div>
-        </div>
-
-        <div class="tag-row">
-          <span class="tag">Three.js</span>
-          <span class="tag">真实3D</span>
-          <span class="tag">动态波前</span>
-          <span class="tag">参数联动</span>
-          <span class="tag">可答辩展示</span>
         </div>
       </section>
 
       <section class="card" id="interactive">
         <h2>二、条纹分布与实时现象（持续动态）</h2>
-        <p class="muted">
-          下方条纹区不是静止图，而是持续动态显示。光强曲线、包络线和屏幕条纹会保持动画状态，同时响应参数调节。
-        </p>
-
+        <p class="muted">下方曲线和灰度条纹会持续动画，并响应参数变化。</p>
         <div class="viewer-wrap">
           <canvas id="plotCanvas" width="960" height="500"></canvas>
         </div>
-
-        <div style="margin-top:10px;" class="hint" id="phenomenonText">
-          当前现象说明将在这里实时更新。
-        </div>
+        <div style="margin-top:10px;" class="hint" id="phenomenonText">当前现象说明将在这里实时更新。</div>
       </section>
 
       <section class="card">
@@ -371,28 +310,16 @@
             <div class="formula">相位项：β = πdx / (λL)</div>
             <div class="formula">双缝干涉：I(x) ∝ cos²(β)</div>
             <div class="formula">考虑缝宽：I(x) ∝ cos²(β) · (sinα / α)²</div>
-            <p class="muted" style="margin-top:8px;">
-              本页考虑了单缝衍射包络，因此比理想双缝模型更接近真实实验。
-            </p>
           </div>
-
           <div>
             <h2>四、参数说明</h2>
             <div class="kv">
-              <div>λ（波长）</div><div>控制颜色近似和条纹间距。</div>
-              <div>d（缝距）</div><div>控制干涉条纹疏密。</div>
-              <div>a（缝宽）</div><div>控制衍射包络宽窄。</div>
-              <div>L（屏距）</div><div>控制条纹整体舒展程度。</div>
+              <div>λ（波长）</div><div>控制颜色近似与条纹疏密。</div>
+              <div>d（缝距）</div><div>控制干涉条纹的疏密。</div>
+              <div>a（缝宽）</div><div>影响衍射包络宽窄。</div>
+              <div>L（屏距）</div><div>决定条纹整体舒展程度。</div>
               <div>B（亮度）</div><div>增强条纹对比效果。</div>
-              <div>v（速度）</div><div>控制 3D 波前传播和图像动画速度。</div>
-            </div>
-
-            <div class="hint" style="margin-top:10px;">
-              规律总结：<br>
-              λ↑ → 条纹变疏<br>
-              L↑ → 条纹变疏<br>
-              d↑ → 条纹变密<br>
-              a↑ → 包络变窄
+              <div>v（速度）</div><div>控制 3D 波前与图像动画速度。</div>
             </div>
           </div>
         </div>
@@ -403,31 +330,30 @@
           <div>
             <h2>五、实验过程</h2>
             <ol class="list">
-              <li>准备单色光源，并使其照射双缝板。</li>
-              <li>双缝将光分为两列相干光波。</li>
-              <li>两列光在屏幕上叠加形成明暗条纹。</li>
-              <li>调节 λ、d、a、L 观察条纹和包络变化。</li>
-              <li>对照公式分析实验现象与参数关系。</li>
+              <li>准备单色光源并照射双缝板。</li>
+              <li>双缝将光分为两列相干光。</li>
+              <li>在屏幕上叠加形成明暗相间条纹。</li>
+              <li>调节 λ、d、a、L 观察现象变化。</li>
+              <li>结合公式分析参数和条纹之间的关系。</li>
             </ol>
           </div>
           <div>
             <h2>六、注意事项</h2>
             <ul class="list">
               <li>光源越接近单色，条纹越清晰。</li>
-              <li>缝宽、缝距与屏距共同决定最终图像形态。</li>
-              <li>真实实验中存在衍射包络，不是无限均匀条纹。</li>
-              <li>观察时应重点把握参数变化与现象变化的对应关系。</li>
-              <li>答辩时建议现场拖动 λ、d、a 三个参数进行展示。</li>
+              <li>缝宽、缝距与屏距共同影响最终图样。</li>
+              <li>真实实验还会受到衍射包络限制。</li>
+              <li>演示时建议重点拖动 λ、d、a 三个参数。</li>
             </ul>
           </div>
         </div>
       </section>
+
     </div>
 
     <div class="right-col">
       <section class="card">
         <h2>七、参数调节面板</h2>
-
         <div class="controls">
           <div class="control-group">
             <label><span>波长 λ（nm）</span><span id="lambdaValue">600 nm</span></label>
@@ -489,20 +415,17 @@
         </div>
       </section>
     </div>
-
   </div>
 </main>
 
 <footer class="footer">
   <div class="container">
-    <p>物能 · 双缝干涉实验页（Three.js 3D 增强版）</p>
+    <p>物能 · 双缝干涉实验页（Three.js 稳定修正版）</p>
   </div>
 </footer>
 
-<script type="module">
-  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-  import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
   const apparatusDiv = document.getElementById("apparatus3d");
   const plotCanvas = document.getElementById("plotCanvas");
   const pctx = plotCanvas.getContext("2d");
@@ -565,53 +488,40 @@
     speedValue.textContent = p.speed.toFixed(2);
   }
 
-  // ===== Three.js Scene =====
+  // ===== THREE BASICS =====
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xf8fbff);
 
   const camera = new THREE.PerspectiveCamera(45, apparatusDiv.clientWidth / apparatusDiv.clientHeight, 0.1, 100);
-  camera.position.set(-2.5, 2.8, 8.5);
+  camera.position.set(-2.2, 2.5, 8.2);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(apparatusDiv.clientWidth, apparatusDiv.clientHeight);
   apparatusDiv.appendChild(renderer.domElement);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enablePan = false;
-  controls.enableDamping = true;
-  controls.minDistance = 4;
-  controls.maxDistance = 16;
-  controls.target.set(2.7, 1.4, 0);
-
   const hemi = new THREE.HemisphereLight(0xffffff, 0xdce8ff, 1.25);
   scene.add(hemi);
 
-  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+  const dir = new THREE.DirectionalLight(0xffffff, 0.95);
   dir.position.set(4, 8, 6);
   scene.add(dir);
 
-  const floorGeo = new THREE.PlaneGeometry(18, 8);
-  const floorMat = new THREE.MeshPhongMaterial({ color: 0xeef3f9, side: THREE.DoubleSide });
-  const floor = new THREE.Mesh(floorGeo, floorMat);
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(18, 8),
+    new THREE.MeshPhongMaterial({ color: 0xeef3f9, side: THREE.DoubleSide })
+  );
   floor.rotation.x = -Math.PI / 2;
   floor.position.set(3.5, 0, 0);
   scene.add(floor);
 
-  const sourceGroup = new THREE.Group();
   const sourceSphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.22, 24, 24),
-    new THREE.MeshPhongMaterial({ color: 0xffcc66, emissive: 0xffaa33, emissiveIntensity: 0.5 })
+    new THREE.MeshPhongMaterial({ color: 0xffcc66, emissive: 0xffaa33, emissiveIntensity: 0.55 })
   );
   sourceSphere.position.set(-4, 1.5, 0);
-  sourceGroup.add(sourceSphere);
-  scene.add(sourceGroup);
+  scene.add(sourceSphere);
 
-  const sourceLabelPlane = makeTextPlane("单色光源");
-  sourceLabelPlane.position.set(-4, 0.55, 0);
-  scene.add(sourceLabelPlane);
-
-  // slit board
   const board = new THREE.Mesh(
     new THREE.BoxGeometry(0.18, 2.8, 2.6),
     new THREE.MeshPhongMaterial({ color: 0x444b56 })
@@ -619,20 +529,11 @@
   board.position.set(0, 1.5, 0);
   scene.add(board);
 
-  const slitTop = new THREE.Mesh(
-    new THREE.BoxGeometry(0.19, 0.15, 0.16),
-    new THREE.MeshBasicMaterial({ color: 0xffffff })
-  );
-  const slitBottom = slitTop.clone();
-  slitTop.position.set(0, 1.7, 0);
-  slitBottom.position.set(0, 1.3, 0);
+  const slitMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const slitTop = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.15, 0.16), slitMat);
+  const slitBottom = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.15, 0.16), slitMat);
   scene.add(slitTop, slitBottom);
 
-  const boardLabelPlane = makeTextPlane("双缝");
-  boardLabelPlane.position.set(0, 0.35, -1.2);
-  scene.add(boardLabelPlane);
-
-  // screen
   const screen = new THREE.Mesh(
     new THREE.BoxGeometry(0.12, 3.5, 2.6),
     new THREE.MeshPhongMaterial({ color: 0xcfd8e3 })
@@ -640,11 +541,6 @@
   screen.position.set(5, 1.6, 0);
   scene.add(screen);
 
-  const screenLabelPlane = makeTextPlane("屏幕");
-  screenLabelPlane.position.set(5, 0.28, -1.15);
-  scene.add(screenLabelPlane);
-
-  // beam cone
   const beamMat = new THREE.MeshBasicMaterial({
     color: 0x88bbff,
     transparent: true,
@@ -659,72 +555,47 @@
 
   const slitBeamTop = new THREE.Mesh(new THREE.ConeGeometry(1.0, 5.2, 30, 1, true), beamMat.clone());
   slitBeamTop.rotation.z = -Math.PI / 2;
-  slitBeamTop.position.set(2.55, 1.7, 0);
   scene.add(slitBeamTop);
 
   const slitBeamBottom = slitBeamTop.clone();
-  slitBeamBottom.position.y = 1.3;
   scene.add(slitBeamBottom);
 
-  // screen stripe plane
+  // screen stripes texture
   const stripeCanvas = document.createElement("canvas");
   stripeCanvas.width = 256;
   stripeCanvas.height = 768;
   const stripeCtx = stripeCanvas.getContext("2d");
   const stripeTexture = new THREE.CanvasTexture(stripeCanvas);
-  stripeTexture.needsUpdate = true;
 
   const stripePlane = new THREE.Mesh(
     new THREE.PlaneGeometry(2.35, 3.25),
-    new THREE.MeshBasicMaterial({ map: stripeTexture, transparent: false, side: THREE.DoubleSide })
+    new THREE.MeshBasicMaterial({ map: stripeTexture, side: THREE.DoubleSide })
   );
   stripePlane.rotation.y = -Math.PI / 2;
   stripePlane.position.set(4.94, 1.6, 0);
   scene.add(stripePlane);
 
-  // animated wave rings
+  // animated rings
   const waveRings = [];
-  const waveMat = new THREE.MeshBasicMaterial({
-    color: 0x66aaff,
-    transparent: true,
-    opacity: 0.22,
-    side: THREE.DoubleSide
-  });
-
   function createRing(){
     const mesh = new THREE.Mesh(
-      new THREE.TorusGeometry(0.1, 0.01, 12, 64),
-      waveMat.clone()
+      new THREE.TorusGeometry(0.1, 0.01, 10, 64),
+      new THREE.MeshBasicMaterial({
+        color: 0x66aaff,
+        transparent: true,
+        opacity: 0.2
+      })
     );
     mesh.rotation.y = Math.PI / 2;
     scene.add(mesh);
     waveRings.push(mesh);
-    return mesh;
   }
 
-  for(let i=0;i<8;i++) createRing();
-  for(let i=0;i<10;i++) createRing();
-  for(let i=0;i<10;i++) createRing();
-
-  function makeTextPlane(text){
-    const cvs = document.createElement("canvas");
-    cvs.width = 256;
-    cvs.height = 96;
-    const ctx = cvs.getContext("2d");
-    ctx.clearRect(0,0,cvs.width,cvs.height);
-    ctx.fillStyle = "#1f2a37";
-    ctx.font = "bold 28px Microsoft YaHei";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, cvs.width/2, cvs.height/2);
-    const tex = new THREE.CanvasTexture(cvs);
-    const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
-    const plane = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.6), mat);
-    return plane;
-  }
+  for(let i=0;i<28;i++) createRing();
 
   function update3DParams(p){
     const color = wavelengthToColor(p.lambdaNm);
+
     sourceSphere.material.color.set(color);
     sourceSphere.material.emissive.set(color);
 
@@ -733,21 +604,20 @@
     slitBeamBottom.material.color.set(color);
 
     const gap = 0.28 + (p.dMm / 0.20) * 0.35;
-    slitTop.position.y = 1.5 + gap / 2;
-    slitBottom.position.y = 1.5 - gap / 2;
-    slitBeamTop.position.y = slitTop.position.y;
-    slitBeamBottom.position.y = slitBottom.position.y;
+    slitTop.position.set(0, 1.5 + gap / 2, 0);
+    slitBottom.position.set(0, 1.5 - gap / 2, 0);
+
+    slitBeamTop.position.set(2.55, slitTop.position.y, 0);
+    slitBeamBottom.position.set(2.55, slitBottom.position.y, 0);
 
     stripePlane.position.x = 4.9 + (p.Lm - 1.0) * 0.9;
     screen.position.x = stripePlane.position.x + 0.06;
-    screenLabelPlane.position.x = screen.position.x;
   }
 
   function drawStripeTexture(p, t){
     const ctx = stripeCtx;
     const W = stripeCanvas.width;
     const H = stripeCanvas.height;
-
     ctx.fillStyle = "rgb(220,226,235)";
     ctx.fillRect(0,0,W,H);
 
@@ -773,7 +643,6 @@
       ctx.fillStyle = `rgb(${val},${val},${val})`;
       ctx.fillRect(0, y, W, 1);
     }
-
     stripeTexture.needsUpdate = true;
   }
 
@@ -782,7 +651,7 @@
     const w = plotCanvas.width;
     const h = plotCanvas.height;
     ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#fff";
     ctx.fillRect(0,0,w,h);
 
     const margin = 70;
@@ -791,7 +660,7 @@
     const plotHeight = plotBottom - plotTop;
 
     const xMin = -0.012;
-    const xMax =  0.012;
+    const xMax = 0.012;
     const N = 1000;
 
     const lambda = p.lambdaNm * 1e-9;
@@ -826,7 +695,7 @@
     ctx.stroke();
 
     ctx.font = "13px Microsoft YaHei";
-    for(let mm = -12; mm <= 12; mm += 4){
+    for(let mm=-12; mm<=12; mm+=4){
       const x = mm / 1000;
       const sx = mapX(x);
       ctx.beginPath();
@@ -856,6 +725,9 @@
     ctx.lineWidth = 2.4;
     ctx.beginPath();
 
+    const curvePts = [];
+    const stripePts = [];
+
     for(let i=0;i<N;i++){
       const x = xMin + (xMax - xMin) * i / (N - 1);
       const beta = Math.PI * d * x / (lambda * L);
@@ -872,50 +744,26 @@
       const sx = mapX(x);
       const sy = mapY(I);
 
-      if(!started){
-        ctx.moveTo(sx, sy);
-        started = true;
-      }else{
-        ctx.lineTo(sx, sy);
-      }
+      curvePts.push([sx, sy]);
+      stripePts.push([sx, I]);
+    }
 
+    stripePts.forEach(([sx, I]) => {
       const opacity = Math.max(0, Math.min(1, I / 1.1));
       ctx.strokeStyle = `rgba(0,0,0,${opacity})`;
       ctx.beginPath();
       ctx.moveTo(sx, bandTop);
       ctx.lineTo(sx, bandTop + bandH);
       ctx.stroke();
-    }
+    });
 
-    // redraw curve on top
     ctx.strokeStyle = "#2563eb";
     ctx.lineWidth = 2.4;
     ctx.beginPath();
-    started = false;
-
-    for(let i=0;i<N;i++){
-      const x = xMin + (xMax - xMin) * i / (N - 1);
-      const beta = Math.PI * d * x / (lambda * L);
-      const alpha = Math.PI * a * x / (lambda * L);
-
-      let env = 1;
-      if(Math.abs(alpha) > 1e-9){
-        env = Math.pow(Math.sin(alpha)/alpha, 2);
-      }
-
-      let I = Math.pow(Math.cos(beta - phase), 2) * env * p.brightness;
-      I = Math.max(0, Math.min(1.35, I));
-
-      const sx = mapX(x);
-      const sy = mapY(I);
-
-      if(!started){
-        ctx.moveTo(sx, sy);
-        started = true;
-      }else{
-        ctx.lineTo(sx, sy);
-      }
-    }
+    curvePts.forEach(([sx, sy], idx) => {
+      if(idx === 0) ctx.moveTo(sx, sy);
+      else ctx.lineTo(sx, sy);
+    });
     ctx.stroke();
 
     ctx.fillStyle = "#1f2a37";
@@ -940,10 +788,9 @@
     phenomenonText.innerHTML =
       `当前采用 <strong>${colorName}</strong> 近似波长，估计相邻亮纹间距约为 <strong>${deltaX_mm.toFixed(2)} mm</strong>。` +
       ` 当前缝宽为 <strong>${p.aMm.toFixed(3)} mm</strong>，因此整体包络呈现 <strong>${envelopeTrend}</strong>。` +
-      ` 你现在看到的画面包含：3D 空间中的装置传播、屏幕条纹动态变化，以及更接近真实实验的衍射包络限制。`;
+      ` 现在装置区和条纹区都保持常态动态，拖动参数后会实时联动更新。`;
   }
 
-  // resize
   function resizeRenderer(){
     const w = apparatusDiv.clientWidth;
     const h = apparatusDiv.clientHeight;
@@ -959,7 +806,6 @@
 
   updateLabels(getParams());
 
-  // animation
   const clock = new THREE.Clock();
 
   function animate(){
@@ -972,49 +818,49 @@
     drawPlot(p, t);
     updateText(p);
 
-    // animate source glow
-    const pulse = 1 + 0.15 * Math.sin(t * 4 * p.speed);
-    sourceSphere.scale.setScalar(pulse);
+    sourceSphere.scale.setScalar(1 + 0.15 * Math.sin(t * 4 * p.speed));
 
-    // animate wave rings
-    const total = waveRings.length;
     const sourcePos = new THREE.Vector3(-4, 1.5, 0);
     const slitTopPos = new THREE.Vector3(0, slitTop.position.y, 0);
     const slitBottomPos = new THREE.Vector3(0, slitBottom.position.y, 0);
 
-    for(let i=0;i<total;i++){
+    for(let i=0;i<waveRings.length;i++){
       const ring = waveRings[i];
+      let local, r, pos;
+
       if(i < 8){
-        const local = (t * 0.9 * p.speed + i * 0.13) % 1;
-        const r = 0.2 + local * 2.6;
-        ring.position.copy(sourcePos);
-        ring.scale.set(r, r, r);
-        ring.material.color.set(wavelengthToColor(p.lambdaNm));
-        ring.material.opacity = 0.22 * (1 - local);
+        local = (t * 0.9 * p.speed + i * 0.13) % 1;
+        r = 0.2 + local * 2.6;
+        pos = sourcePos;
       }else if(i < 18){
-        const local = (t * 1.15 * p.speed + i * 0.11) % 1;
-        const r = 0.15 + local * 3.9;
-        ring.position.copy(slitTopPos);
-        ring.scale.set(r, r, r);
-        ring.material.color.set(wavelengthToColor(p.lambdaNm));
-        ring.material.opacity = 0.18 * (1 - local);
+        local = (t * 1.15 * p.speed + i * 0.11) % 1;
+        r = 0.15 + local * 3.9;
+        pos = slitTopPos;
       }else{
-        const local = (t * 1.15 * p.speed + i * 0.11) % 1;
-        const r = 0.15 + local * 3.9;
-        ring.position.copy(slitBottomPos);
-        ring.scale.set(r, r, r);
-        ring.material.color.set(wavelengthToColor(p.lambdaNm));
-        ring.material.opacity = 0.18 * (1 - local);
+        local = (t * 1.15 * p.speed + i * 0.11) % 1;
+        r = 0.15 + local * 3.9;
+        pos = slitBottomPos;
       }
+
+      ring.position.copy(pos);
+      ring.scale.set(r, r, r);
+      ring.rotation.y = Math.PI / 2;
+      ring.material.color.set(wavelengthToColor(p.lambdaNm));
+      ring.material.opacity = (i < 8 ? 0.22 : 0.18) * (1 - local);
     }
 
-    controls.update();
+    // 自动绕场景轻微旋转镜头，保留 3D 感且避免控件依赖
+    const radius = 8.2;
+    camera.position.x = Math.cos(t * 0.12) * radius - 0.5;
+    camera.position.z = Math.sin(t * 0.12) * radius;
+    camera.position.y = 2.7;
+    camera.lookAt(2.2, 1.5, 0);
+
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
 
   animate();
 </script>
-
 </body>
 </html>
