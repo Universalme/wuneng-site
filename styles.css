@@ -167,6 +167,10 @@ main{
   transition:.2s ease;
 }
 
+.stage-card .btn{
+  margin-top: 14px;
+}
+
 .stage-card:hover{
   transform:translateY(-4px);
 }
@@ -255,3 +259,4 @@ main{
     grid-template-columns:1fr;
   }
 }
+
