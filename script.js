@@ -1,1 +1,1 @@
-console.log("wuneng site loaded");
+console.log("物能比赛展示版首页已加载");
