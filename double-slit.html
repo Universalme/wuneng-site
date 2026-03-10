@@ -19,58 +19,61 @@
     }
 
     *{ box-sizing:border-box; }
+
+    html{ scroll-behavior:smooth; }
+
     body{
       margin:0;
       font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
-      line-height:1.7;
+      line-height:1.6;
     }
 
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
+    a{ text-decoration:none; color:inherit; }
 
     .container{
-      width:min(1200px, calc(100% - 32px));
+      width:min(1280px, calc(100% - 24px));
       margin:0 auto;
     }
 
     .hero{
-      padding:56px 0 36px;
-      background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 60%,#eef5ff 100%);
+      padding:40px 0 24px;
+      background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 58%,#eef5ff 100%);
       border-bottom:1px solid var(--line);
     }
 
     .hero h1{
-      margin:0 0 8px;
-      font-size:42px;
+      margin:0;
       text-align:center;
+      font-size:40px;
+      line-height:1.15;
     }
 
     .hero p{
-      margin:0;
+      margin:10px auto 0;
+      max-width:860px;
       text-align:center;
       color:var(--muted);
-      font-size:17px;
+      font-size:16px;
     }
 
     .hero-actions{
       display:flex;
       justify-content:center;
-      gap:12px;
-      margin-top:20px;
+      gap:10px;
+      margin-top:18px;
       flex-wrap:wrap;
     }
 
     .btn{
       display:inline-block;
-      padding:10px 18px;
+      padding:10px 16px;
       border-radius:12px;
       border:1px solid var(--line);
       background:#fff;
       font-weight:700;
+      font-size:14px;
       transition:.2s ease;
     }
 
@@ -90,14 +93,21 @@
     }
 
     main{
-      padding:28px 0 40px;
+      padding:18px 0 28px;
     }
 
-    .grid{
+    .layout{
       display:grid;
-      grid-template-columns: 1.35fr 0.95fr;
-      gap:18px;
-      margin-bottom:18px;
+      grid-template-columns: 1.55fr 0.95fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    .left-col,
+    .right-col{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
     }
 
     .card{
@@ -105,38 +115,47 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:22px;
+      padding:18px;
     }
 
     .card h2{
-      margin:0 0 12px;
-      font-size:24px;
+      margin:0 0 10px;
+      font-size:22px;
+      line-height:1.3;
     }
 
     .card h3{
       margin:0 0 10px;
-      font-size:20px;
+      font-size:18px;
+      line-height:1.3;
     }
 
     .muted{
       color:var(--muted);
+      font-size:14px;
+    }
+
+    .subgrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
     }
 
     .formula{
       background:#f8fbff;
       border:1px solid #dce9ff;
       border-radius:12px;
-      padding:14px 16px;
-      margin:10px 0;
-      font-size:17px;
+      padding:10px 12px;
+      font-size:15px;
       overflow:auto;
     }
 
     .kv{
       display:grid;
-      grid-template-columns: 150px 1fr;
-      gap:10px 14px;
-      margin-top:10px;
+      grid-template-columns: 130px 1fr;
+      gap:8px 12px;
+      font-size:14px;
+      margin-top:8px;
     }
 
     .kv div:nth-child(odd){
@@ -144,45 +163,10 @@
       color:#243244;
     }
 
-    .control-group{
-      margin-bottom:18px;
-    }
-
-    .control-group label{
-      display:flex;
-      justify-content:space-between;
-      font-weight:700;
-      margin-bottom:6px;
-      gap:12px;
-    }
-
-    .control-group input[type="range"]{
-      width:100%;
-    }
-
-    .mini-note{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:4px;
-    }
-
-    .section{
-      margin-bottom:18px;
-    }
-
-    .list{
-      margin:0;
-      padding-left:20px;
-    }
-
-    .list li{
-      margin-bottom:8px;
-    }
-
     .tag-row{
       display:flex;
+      gap:8px;
       flex-wrap:wrap;
-      gap:10px;
       margin-top:10px;
     }
 
@@ -190,48 +174,130 @@
       background:var(--soft);
       color:var(--primary-dark);
       border-radius:999px;
-      padding:6px 12px;
-      font-size:13px;
+      padding:5px 10px;
+      font-size:12px;
       font-weight:700;
     }
 
-    .two-col{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-top:18px;
-    }
-
-    .footer{
-      text-align:center;
-      padding:12px 0 30px;
-      color:var(--muted);
-    }
-
-    #plotWrap{
-      overflow:auto;
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:#fff;
-      padding:12px;
-    }
-
     .hint{
-      padding:10px 14px;
+      padding:10px 12px;
       background:#f8fbff;
       border:1px solid #dce9ff;
       border-radius:12px;
       color:#355070;
+      font-size:13px;
+    }
+
+    .canvas-wrap{
+      width:100%;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      padding:10px;
+    }
+
+    canvas{
+      display:block;
+      width:100%;
+      max-width:100%;
+      background:#fff;
+      border-radius:10px;
+    }
+
+    .controls{
+      display:grid;
+      gap:14px;
+    }
+
+    .control-group{
+      padding:12px;
+      background:#f9fbfd;
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+
+    .control-group label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:8px;
+    }
+
+    .control-group input[type="range"]{
+      width:100%;
+      margin:0;
+    }
+
+    .mini-note{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+    }
+
+    .small-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+
+    .metric{
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+    }
+
+    .metric .label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    .metric .value{
+      font-size:15px;
+      font-weight:700;
+      color:#223348;
+    }
+
+    .list{
+      margin:0;
+      padding-left:20px;
       font-size:14px;
     }
 
-    @media (max-width: 980px){
-      .grid, .two-col{
+    .list li{
+      margin-bottom:7px;
+    }
+
+    .footer{
+      text-align:center;
+      padding:10px 0 24px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width: 1050px){
+      .layout{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .hero h1{
+        font-size:30px;
+      }
+
+      .subgrid,
+      .small-grid{
         grid-template-columns:1fr;
       }
 
-      .hero h1{
-        font-size:34px;
+      .kv{
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -241,199 +307,227 @@
 <header class="hero">
   <div class="container">
     <h1>双缝干涉实验</h1>
-    <p>通过交互式参数调节，直观观察波长、缝距、屏距对干涉条纹的影响</p>
+    <p>
+      通过实时调节波长、缝距、缝宽、屏距、亮度与动画速度，观察双缝干涉条纹、包络线和装置中波前传播的动态变化。
+    </p>
     <div class="hero-actions">
       <a class="btn" href="senior.html">返回高中模块</a>
-      <a class="btn primary" href="#interactive">直接进入交互实验</a>
+      <a class="btn primary" href="#interactive">进入交互实验</a>
     </div>
   </div>
 </header>
 
 <main class="container">
+  <div class="layout">
 
-  <div class="grid">
-    <section class="card">
-      <h2>一、实验装置与原理示意</h2>
-      <p class="muted">
-        双缝干涉实验的基本装置由单色光源、双缝、屏幕组成。光通过两条狭缝后形成两列相干光波，
-        在屏幕上叠加后产生明暗相间的干涉条纹。
-      </p>
+    <div class="left-col">
 
-      <div id="apparatusWrap" style="overflow:auto; border:1px solid var(--line); border-radius:14px; background:#fff; padding:12px;"></div>
+      <section class="card">
+        <h2>一、装置示意与动态传播</h2>
+        <p class="muted">
+          下方不是静态示意图，而是带有动态波前传播的 2.5D 演示：光从光源出发，通过双缝后在屏幕上形成干涉条纹。这样既能保留网页部署的稳定性，又能增强空间感与演示效果。
+        </p>
 
-      <div class="tag-row">
-        <span class="tag">单色光源</span>
-        <span class="tag">双缝</span>
-        <span class="tag">相干叠加</span>
-        <span class="tag">屏幕条纹</span>
-      </div>
-
-      <div class="section" style="margin-top:18px;">
-        <h3>装置讲解</h3>
-        <div class="kv">
-          <div>光源</div><div>提供近似单色光，保证波长稳定，便于观察清晰条纹。</div>
-          <div>双缝</div><div>两缝间距为 d，两个缝相当于两个相干波源。</div>
-          <div>屏幕</div><div>用来接收叠加后的光强分布，观察明暗相间条纹。</div>
-          <div>屏距</div><div>双缝到屏幕的距离记为 L，影响条纹间距和整体分布尺度。</div>
+        <div class="canvas-wrap">
+          <canvas id="apparatusCanvas" width="960" height="360"></canvas>
         </div>
-      </div>
-    </section>
 
-    <aside class="card">
-      <h2>二、公式说明</h2>
-
-      <div class="formula">
-        条纹间距：Δx = λL / d
-      </div>
-
-      <div class="formula">
-        相位项：β = πdx / (λL)
-      </div>
-
-      <div class="formula">
-        光强分布：I(x) ∝ cos²(β)
-      </div>
-
-      <p class="muted">
-        这里采用的是远场近似下的双缝干涉模型，适合高中阶段对条纹间距与参数关系的理解。
-      </p>
-
-      <div class="section">
-        <h3>参数讲解</h3>
-        <div class="kv">
-          <div>λ（波长）</div><div>光的波长。波长越大，条纹间距越大。</div>
-          <div>d（缝距）</div><div>两缝中心之间的距离。缝距越大，条纹间距越小。</div>
-          <div>L（屏距）</div><div>双缝到屏幕的距离。屏距越大，条纹间距越大。</div>
-          <div>x（屏幕位置）</div><div>屏幕上横向位置，用来描述不同位置的光强变化。</div>
+        <div class="tag-row">
+          <span class="tag">动态波前</span>
+          <span class="tag">双缝装置</span>
+          <span class="tag">屏幕条纹</span>
+          <span class="tag">参数联动</span>
+          <span class="tag">2.5D空间感</span>
         </div>
-      </div>
+      </section>
 
-      <div class="hint">
-        记忆规律：<br>
-        波长 λ ↑ → 条纹变疏<br>
-        屏距 L ↑ → 条纹变疏<br>
-        缝距 d ↑ → 条纹变密
-      </div>
-    </aside>
-  </div>
+      <section class="card" id="interactive">
+        <h2>二、条纹分布与实时现象</h2>
+        <p class="muted">
+          下方左侧是光强曲线，右侧是屏幕上的灰度干涉条纹。拖动参数后，图像会实时变化。
+        </p>
 
-  <div class="grid" id="interactive">
-    <section class="card">
-      <h2>三、交互式实验演示</h2>
-      <p class="muted">
-        下面可以实时拖动参数，观察双缝干涉条纹的变化。页面会同步更新：
-        <strong>装置示意参数、曲线图、光斑条纹带、条纹间距估计值</strong>。
-      </p>
-
-      <div id="plotWrap">
-        <div id="plot"></div>
-      </div>
-
-      <div class="section" style="margin-top:16px;">
-        <h3>现象解读</h3>
-        <p id="phenomenonText" class="muted"></p>
-      </div>
-    </section>
-
-    <aside class="card">
-      <h2>四、参数调节面板</h2>
-
-      <div class="control-group">
-        <label>
-          <span>波长 λ（nm）</span>
-          <span id="lambdaValue">600 nm</span>
-        </label>
-        <input id="lambdaSlider" type="range" min="380" max="760" value="600" step="1">
-        <div class="mini-note">推荐理解：从紫光到红光，波长逐渐增大。</div>
-      </div>
-
-      <div class="control-group">
-        <label>
-          <span>缝距 d（mm）</span>
-          <span id="dValue">0.20 mm</span>
-        </label>
-        <input id="dSlider" type="range" min="0.05" max="0.50" value="0.20" step="0.01">
-        <div class="mini-note">缝距越大，条纹越密。</div>
-      </div>
-
-      <div class="control-group">
-        <label>
-          <span>屏距 L（m）</span>
-          <span id="LValue">1.00 m</span>
-        </label>
-        <input id="LSlider" type="range" min="0.50" max="3.00" value="1.00" step="0.01">
-        <div class="mini-note">屏距越大，条纹整体拉开。</div>
-      </div>
-
-      <div class="section">
-        <h3>当前实验结论</h3>
-        <div class="kv">
-          <div>估计条纹间距</div><div id="deltaXText">--</div>
-          <div>当前光色近似</div><div id="colorNameText">--</div>
-          <div>现象趋势</div><div id="trendText">--</div>
+        <div class="canvas-wrap">
+          <canvas id="plotCanvas" width="960" height="500"></canvas>
         </div>
-      </div>
-    </aside>
+
+        <div style="margin-top:12px;" class="hint" id="phenomenonText">
+          当前现象说明将在这里实时更新。
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>三、公式说明</h2>
+
+            <div class="formula">条纹间距：Δx = λL / d</div>
+            <div class="formula">相位项：β = πdx / (λL)</div>
+            <div class="formula">双缝光强：I(x) ∝ cos²(β)</div>
+            <div class="formula">考虑缝宽包络：I(x) ∝ cos²(β) · (sinα / α)²</div>
+
+            <p class="muted" style="margin-top:10px;">
+              这一版比上一版多加入了<strong>单缝衍射包络</strong>，因此条纹表现会更接近真实实验。
+            </p>
+          </div>
+
+          <div>
+            <h2>四、参数说明</h2>
+            <div class="kv">
+              <div>λ（波长）</div><div>光的波长，决定条纹疏密与颜色。</div>
+              <div>d（缝距）</div><div>两缝中心距离，d 越大，条纹越密。</div>
+              <div>a（缝宽）</div><div>单个缝的宽度，会影响整体包络宽度。</div>
+              <div>L（屏距）</div><div>双缝到屏幕距离，L 越大，条纹越疏。</div>
+              <div>B（亮度）</div><div>控制条纹显示强弱，增强视觉效果。</div>
+              <div>v（速度）</div><div>控制装置区动态波前传播速度。</div>
+            </div>
+
+            <div class="hint" style="margin-top:12px;">
+              记忆规律：<br>
+              λ↑ → 条纹变疏<br>
+              L↑ → 条纹变疏<br>
+              d↑ → 条纹变密<br>
+              a↑ → 包络变窄
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="subgrid">
+          <div>
+            <h2>五、实验过程</h2>
+            <ol class="list">
+              <li>准备稳定单色光源，使光照射到双缝板上。</li>
+              <li>双缝将光分成两列近似相干的光波。</li>
+              <li>两列光在屏幕上同一区域叠加，形成明暗相间的干涉条纹。</li>
+              <li>通过调整 λ、d、a、L，观察条纹间距与整体包络变化。</li>
+              <li>对照公式分析参数变化对实验现象的影响。</li>
+            </ol>
+          </div>
+          <div>
+            <h2>六、注意事项</h2>
+            <ul class="list">
+              <li>光源应尽量单色，否则条纹会变模糊。</li>
+              <li>缝宽过大或两缝不一致，都会削弱条纹清晰度。</li>
+              <li>屏距过短时，条纹不易拉开，观察效果较差。</li>
+              <li>真实实验还会受到环境光、装置精度和衍射包络影响。</li>
+              <li>学习时不要只记条纹公式，更要关注“参数—现象”的对应关系。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="right-col">
+      <section class="card">
+        <h2>七、参数调节面板</h2>
+
+        <div class="controls">
+          <div class="control-group">
+            <label><span>波长 λ（nm）</span><span id="lambdaValue">600 nm</span></label>
+            <input id="lambdaSlider" type="range" min="380" max="760" value="600" step="1">
+            <div class="mini-note">决定条纹疏密与颜色近似。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>缝距 d（mm）</span><span id="dValue">0.20 mm</span></label>
+            <input id="dSlider" type="range" min="0.05" max="0.60" value="0.20" step="0.01">
+            <div class="mini-note">缝距越大，干涉条纹越密。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>缝宽 a（mm）</span><span id="aValue">0.04 mm</span></label>
+            <input id="aSlider" type="range" min="0.01" max="0.20" value="0.04" step="0.005">
+            <div class="mini-note">缝宽影响衍射包络宽度。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>屏距 L（m）</span><span id="LValue">1.00 m</span></label>
+            <input id="LSlider" type="range" min="0.40" max="3.00" value="1.00" step="0.01">
+            <div class="mini-note">屏距越大，整体条纹更舒展。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>亮度 B</span><span id="brightnessValue">1.00</span></label>
+            <input id="brightnessSlider" type="range" min="0.30" max="1.50" value="1.00" step="0.01">
+            <div class="mini-note">增强或减弱条纹显示效果。</div>
+          </div>
+
+          <div class="control-group">
+            <label><span>动画速度 v</span><span id="speedValue">1.00</span></label>
+            <input id="speedSlider" type="range" min="0.20" max="3.00" value="1.00" step="0.01">
+            <div class="mini-note">控制装置图中波前传播速度。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>八、实时结果</h2>
+        <div class="small-grid">
+          <div class="metric">
+            <div class="label">当前近似颜色</div>
+            <div class="value" id="colorNameText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">估计条纹间距</div>
+            <div class="value" id="deltaXText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">包络宽度趋势</div>
+            <div class="value" id="envelopeText">--</div>
+          </div>
+          <div class="metric">
+            <div class="label">当前变化规律</div>
+            <div class="value" id="trendText">--</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>九、教学讲解建议</h2>
+        <p class="muted">
+          这一页适合在比赛答辩时这样演示：先展示装置区的动态传播，再拖动 λ、d、L 观察条纹变化，最后用 a 说明“真实实验中条纹不是无限延伸，而会受到包络限制”。
+        </p>
+      </section>
+    </div>
+
   </div>
-
-  <div class="two-col">
-    <section class="card">
-      <h2>五、实验过程</h2>
-      <ol class="list">
-        <li>准备稳定单色光源，使其照射到双缝装置上。</li>
-        <li>保证双缝间距固定，并将屏幕放置在双缝后方一定距离处。</li>
-        <li>调整光路，使两缝后形成的两列相干光能覆盖在屏幕同一区域。</li>
-        <li>观察屏幕中央是否存在明暗相间、左右对称的干涉条纹。</li>
-        <li>改变波长 λ、缝距 d 或屏距 L，比较条纹间距与分布变化。</li>
-        <li>记录现象，并结合公式 Δx = λL/d 分析变化规律。</li>
-      </ol>
-    </section>
-
-    <section class="card">
-      <h2>六、注意事项</h2>
-      <ul class="list">
-        <li>光源尽量接近单色，否则条纹会变模糊甚至出现彩色混杂现象。</li>
-        <li>双缝需足够窄且两缝条件相近，才能形成较清晰的干涉条纹。</li>
-        <li>环境光不宜过强，否则屏幕上的条纹对比度会下降。</li>
-        <li>屏幕距离过近时，条纹可能不够舒展，不利于观察规律。</li>
-        <li>实验中应优先关注“参数变化 → 条纹变化”的对应关系，而不只是记公式。</li>
-      </ul>
-    </section>
-  </div>
-
 </main>
 
 <footer class="footer">
   <div class="container">
-    <p>物能 · 双缝干涉交互实验页</p>
+    <p>物能 · 双缝干涉动态实验页（紧凑增强版）</p>
   </div>
 </footer>
 
 <script>
+  const apparatusCanvas = document.getElementById("apparatusCanvas");
+  const plotCanvas = document.getElementById("plotCanvas");
+  const actx = apparatusCanvas.getContext("2d");
+  const pctx = plotCanvas.getContext("2d");
+
   const lambdaSlider = document.getElementById("lambdaSlider");
   const dSlider = document.getElementById("dSlider");
+  const aSlider = document.getElementById("aSlider");
   const LSlider = document.getElementById("LSlider");
+  const brightnessSlider = document.getElementById("brightnessSlider");
+  const speedSlider = document.getElementById("speedSlider");
 
   const lambdaValue = document.getElementById("lambdaValue");
   const dValue = document.getElementById("dValue");
+  const aValue = document.getElementById("aValue");
   const LValue = document.getElementById("LValue");
-
-  const plotDiv = document.getElementById("plot");
-  const apparatusWrap = document.getElementById("apparatusWrap");
+  const brightnessValue = document.getElementById("brightnessValue");
+  const speedValue = document.getElementById("speedValue");
 
   const deltaXText = document.getElementById("deltaXText");
   const colorNameText = document.getElementById("colorNameText");
+  const envelopeText = document.getElementById("envelopeText");
   const trendText = document.getElementById("trendText");
   const phenomenonText = document.getElementById("phenomenonText");
 
-  function getColorName(lambdaNm){
-    if(lambdaNm < 450) return "紫蓝光";
-    if(lambdaNm < 495) return "蓝青光";
-    if(lambdaNm < 570) return "绿光";
-    if(lambdaNm < 590) return "黄光";
-    if(lambdaNm < 620) return "橙光";
-    return "红光";
-  }
+  let animT = 0;
 
   function wavelengthToColor(lambdaNm){
     if(lambdaNm < 450) return "#6b5bff";
@@ -444,165 +538,356 @@
     return "#e74c3c";
   }
 
-  function apparatusSVG(lambdaNm, dMm, Lm){
-    const beamColor = wavelengthToColor(lambdaNm);
-    return `
-    <svg width="1000" height="270" viewBox="0 0 1000 270" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="1000" height="270" fill="white"/>
-      <text x="500" y="28" text-anchor="middle" font-size="24" font-weight="bold">双缝干涉实验装置示意图</text>
-
-      <!-- 光源 -->
-      <circle cx="110" cy="135" r="26" fill="${beamColor}" opacity="0.85"/>
-      <text x="110" y="182" text-anchor="middle" font-size="16">单色光源</text>
-
-      <!-- 光束 -->
-      <polygon points="136,118 360,88 360,182 136,152" fill="${beamColor}" opacity="0.18"/>
-
-      <!-- 双缝板 -->
-      <rect x="360" y="60" width="28" height="150" fill="#444"/>
-      <rect x="370" y="103" width="6" height="14" fill="white"/>
-      <rect x="370" y="153" width="6" height="14" fill="white"/>
-      <text x="374" y="235" text-anchor="middle" font-size="16">双缝</text>
-
-      <!-- 两束相干光 -->
-      <polygon points="388,110 820,72 820,104 388,116" fill="${beamColor}" opacity="0.16"/>
-      <polygon points="388,160 820,166 820,198 388,160" fill="${beamColor}" opacity="0.16"/>
-
-      <!-- 屏幕 -->
-      <rect x="820" y="40" width="28" height="190" fill="#cfd8e3"/>
-      <text x="834" y="250" text-anchor="middle" font-size="16">屏幕</text>
-
-      <!-- 参数说明 -->
-      <line x1="373" y1="117" x2="373" y2="153" stroke="#111" stroke-dasharray="4,3"/>
-      <text x="400" y="139" font-size="16">缝距 d = ${dMm.toFixed(2)} mm</text>
-
-      <line x1="388" y1="36" x2="820" y2="36" stroke="#111" marker-end="url(#arrow)"/>
-      <text x="604" y="24" text-anchor="middle" font-size="16">屏距 L = ${Lm.toFixed(2)} m</text>
-
-      <text x="132" y="40" font-size="16" fill="${beamColor}" font-weight="bold">波长 λ = ${lambdaNm} nm</text>
-
-      <defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/>
-        </marker>
-      </defs>
-    </svg>
-    `;
+  function getColorName(lambdaNm){
+    if(lambdaNm < 450) return "紫蓝光";
+    if(lambdaNm < 495) return "蓝青光";
+    if(lambdaNm < 570) return "绿光";
+    if(lambdaNm < 590) return "黄光";
+    if(lambdaNm < 620) return "橙光";
+    return "红光";
   }
 
-  function makePlotSVG(lambdaNm, dMm, Lm){
+  function getParams(){
+    return {
+      lambdaNm: parseInt(lambdaSlider.value, 10),
+      dMm: parseFloat(dSlider.value),
+      aMm: parseFloat(aSlider.value),
+      Lm: parseFloat(LSlider.value),
+      brightness: parseFloat(brightnessSlider.value),
+      speed: parseFloat(speedSlider.value)
+    };
+  }
+
+  function updateLabels(params){
+    lambdaValue.textContent = `${params.lambdaNm} nm`;
+    dValue.textContent = `${params.dMm.toFixed(2)} mm`;
+    aValue.textContent = `${params.aMm.toFixed(3)} mm`;
+    LValue.textContent = `${params.Lm.toFixed(2)} m`;
+    brightnessValue.textContent = params.brightness.toFixed(2);
+    speedValue.textContent = params.speed.toFixed(2);
+  }
+
+  function drawRoundedRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function drawApparatus(params){
+    const { lambdaNm, dMm, Lm, speed } = params;
+    const color = wavelengthToColor(lambdaNm);
+
+    const w = apparatusCanvas.width;
+    const h = apparatusCanvas.height;
+
+    actx.clearRect(0,0,w,h);
+
+    actx.fillStyle = "#ffffff";
+    actx.fillRect(0,0,w,h);
+
+    // title baseline
+    actx.fillStyle = "#1f2a37";
+    actx.font = "bold 24px Microsoft YaHei";
+    actx.textAlign = "center";
+    actx.fillText("双缝干涉动态装置演示", w/2, 34);
+
+    // perspective floor
+    actx.fillStyle = "#eef3f9";
+    actx.beginPath();
+    actx.moveTo(90, 280);
+    actx.lineTo(780, 280);
+    actx.lineTo(900, 335);
+    actx.lineTo(20, 335);
+    actx.closePath();
+    actx.fill();
+
+    // source
+    const sourceX = 90, sourceY = 170;
+    actx.fillStyle = color;
+    actx.globalAlpha = 0.85;
+    actx.beginPath();
+    actx.arc(sourceX, sourceY, 22, 0, Math.PI*2);
+    actx.fill();
+    actx.globalAlpha = 1;
+
+    actx.fillStyle = "#1f2a37";
+    actx.font = "14px Microsoft YaHei";
+    actx.fillText("单色光源", sourceX, 206);
+
+    // slit plate
+    const slitX = 360;
+    const plateTop = 90;
+    const plateH = 180;
+    actx.fillStyle = "#434b57";
+    actx.fillRect(slitX, plateTop, 30, plateH);
+
+    // slit positions
+    const slitGapPx = 52 * (dMm / 0.20);
+    const slit1Y = 170 - slitGapPx/2;
+    const slit2Y = 170 + slitGapPx/2;
+    const slitH = 10;
+
+    actx.fillStyle = "#ffffff";
+    actx.fillRect(slitX + 10, slit1Y - slitH/2, 8, slitH);
+    actx.fillRect(slitX + 10, slit2Y - slitH/2, 8, slitH);
+
+    actx.fillStyle = "#1f2a37";
+    actx.fillText("双缝", slitX + 15, 292);
+
+    // screen
+    const screenX = 835;
+    actx.fillStyle = "#cfd8e3";
+    actx.fillRect(screenX, 75, 24, 215);
+    actx.fillStyle = "#1f2a37";
+    actx.fillText("屏幕", screenX + 12, 312);
+
+    // light cone to slit
+    actx.save();
+    actx.globalAlpha = 0.12;
+    actx.fillStyle = color;
+    actx.beginPath();
+    actx.moveTo(sourceX + 18, sourceY - 22);
+    actx.lineTo(slitX, slit1Y - 18);
+    actx.lineTo(slitX, slit2Y + 18);
+    actx.lineTo(sourceX + 18, sourceY + 22);
+    actx.closePath();
+    actx.fill();
+    actx.restore();
+
+    // animated wavefronts before slit
+    actx.save();
+    actx.strokeStyle = color;
+    actx.lineWidth = 1.4;
+    actx.globalAlpha = 0.35;
+    for(let r = 15; r < 260; r += 18){
+      const rr = ((r + animT * 40 * speed) % 260);
+      actx.beginPath();
+      actx.arc(sourceX, sourceY, rr, -0.45, 0.45);
+      actx.stroke();
+    }
+    actx.restore();
+
+    // animated wavefronts after slits
+    actx.save();
+    actx.strokeStyle = color;
+    actx.lineWidth = 1.1;
+    actx.globalAlpha = 0.28;
+    for(let r = 8; r < 560; r += 18){
+      const rr = ((r + animT * 50 * speed) % 560);
+      actx.beginPath();
+      actx.arc(slitX + 15, slit1Y, rr, -0.35, 0.35);
+      actx.stroke();
+      actx.beginPath();
+      actx.arc(slitX + 15, slit2Y, rr, -0.35, 0.35);
+      actx.stroke();
+    }
+    actx.restore();
+
+    // parameter annotation
+    actx.strokeStyle = "#111";
+    actx.fillStyle = "#111";
+    actx.lineWidth = 1.1;
+    actx.font = "14px Microsoft YaHei";
+    actx.textAlign = "left";
+
+    // gap line
+    actx.beginPath();
+    actx.moveTo(slitX - 16, slit1Y);
+    actx.lineTo(slitX - 16, slit2Y);
+    actx.stroke();
+    actx.beginPath();
+    actx.moveTo(slitX - 20, slit1Y);
+    actx.lineTo(slitX - 12, slit1Y);
+    actx.moveTo(slitX - 20, slit2Y);
+    actx.lineTo(slitX - 12, slit2Y);
+    actx.stroke();
+    actx.fillText(`d = ${dMm.toFixed(2)} mm`, slitX + 42, (slit1Y + slit2Y)/2 + 4);
+
+    // L line
+    actx.beginPath();
+    actx.moveTo(slitX + 30, 58);
+    actx.lineTo(screenX, 58);
+    actx.stroke();
+    actx.beginPath();
+    actx.moveTo(screenX - 7, 54);
+    actx.lineTo(screenX, 58);
+    actx.lineTo(screenX - 7, 62);
+    actx.stroke();
+    actx.fillText(`L = ${Lm.toFixed(2)} m`, 560, 50);
+
+    actx.fillStyle = color;
+    actx.font = "bold 15px Microsoft YaHei";
+    actx.fillText(`λ = ${lambdaNm} nm`, 36, 52);
+  }
+
+  function drawPlot(params){
+    const { lambdaNm, dMm, aMm, Lm, brightness } = params;
+
     const lambda = lambdaNm * 1e-9;
     const d = dMm * 1e-3;
+    const a = aMm * 1e-3;
     const L = Lm;
 
-    const xMin = -0.01;
-    const xMax = 0.01;
-    const N = 801;
+    const w = plotCanvas.width;
+    const h = plotCanvas.height;
+    pctx.clearRect(0,0,w,h);
+    pctx.fillStyle = "#fff";
+    pctx.fillRect(0,0,w,h);
 
-    const width = 980;
-    const height = 560;
-    const margin = 75;
+    const margin = 70;
+    const plotTop = 84;
+    const plotBottom = h - 72;
+    const plotHeight = plotBottom - plotTop;
+
+    const xMin = -0.012;
+    const xMax =  0.012;
+    const N = 1000;
 
     function mapX(x){
-      return margin + (x - xMin) / (xMax - xMin) * (width - 2 * margin);
+      return margin + (x - xMin) / (xMax - xMin) * (w - 2*margin);
     }
 
     function mapY(I){
-      return height - margin - I * (height - 2.2 * margin);
+      return plotBottom - I * (plotHeight * 0.72);
     }
 
-    let points = [];
-    let stripes = [];
-    let beamHeight = 58;
-    let beamTop = height - margin - beamHeight + 28;
+    let curve = [];
+    let stripeData = [];
 
     for(let i=0;i<N;i++){
       const x = xMin + (xMax - xMin) * i / (N - 1);
+
       const beta = Math.PI * d * x / (lambda * L);
-      const I = Math.cos(beta) ** 2;
+      const alpha = Math.PI * a * x / (lambda * L);
 
-      points.push(`${mapX(x).toFixed(1)},${mapY(I).toFixed(1)}`);
+      let envelope = 1;
+      if(Math.abs(alpha) > 1e-9){
+        envelope = Math.pow(Math.sin(alpha) / alpha, 2);
+      }
 
-      const opacity = Math.max(0, Math.min(1, I));
-      stripes.push(
-        `<line x1="${mapX(x).toFixed(2)}" y1="${beamTop.toFixed(2)}"
-               x2="${mapX(x).toFixed(2)}" y2="${(beamTop + beamHeight).toFixed(2)}"
-               stroke="black" stroke-opacity="${opacity.toFixed(2)}" stroke-width="1" />`
-      );
+      let I = Math.pow(Math.cos(beta), 2) * envelope * brightness;
+      I = Math.max(0, Math.min(1.4, I));
+
+      curve.push([mapX(x), mapY(I)]);
+      stripeData.push({sx:mapX(x), I});
     }
 
-    let ticks = "";
-    for(let xt=-10; xt<=10; xt+=5){
-      const tx = mapX(xt / 1000);
-      ticks += `
-        <line x1="${tx}" y1="${height-margin}" x2="${tx}" y2="${height-margin+8}" stroke="black"/>
-        <text x="${tx}" y="${height-margin+28}" font-size="14" text-anchor="middle">${xt}</text>
-      `;
+    pctx.fillStyle = "#1f2a37";
+    pctx.font = "bold 24px Microsoft YaHei";
+    pctx.textAlign = "center";
+    pctx.fillText("干涉条纹与包络线分布", w/2, 34);
+
+    pctx.fillStyle = "#5f6b7a";
+    pctx.font = "15px Microsoft YaHei";
+    pctx.fillText(`λ=${lambdaNm} nm    d=${dMm.toFixed(2)} mm    a=${aMm.toFixed(3)} mm    L=${Lm.toFixed(2)} m`, w/2, 60);
+
+    // axes
+    pctx.strokeStyle = "#111";
+    pctx.lineWidth = 1.2;
+    pctx.beginPath();
+    pctx.moveTo(margin, plotBottom);
+    pctx.lineTo(w - margin, plotBottom);
+    pctx.moveTo(margin, plotBottom);
+    pctx.lineTo(margin, plotTop);
+    pctx.stroke();
+
+    // ticks x
+    pctx.font = "13px Microsoft YaHei";
+    for(let mm = -12; mm <= 12; mm += 4){
+      const x = mm / 1000;
+      const sx = mapX(x);
+      pctx.beginPath();
+      pctx.moveTo(sx, plotBottom);
+      pctx.lineTo(sx, plotBottom + 6);
+      pctx.stroke();
+      pctx.fillStyle = "#1f2a37";
+      pctx.fillText(`${mm}`, sx, plotBottom + 22);
     }
 
-    return `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="${width}" height="${height}" fill="white"/>
+    // y label
+    pctx.save();
+    pctx.translate(24, (plotTop + plotBottom)/2);
+    pctx.rotate(-Math.PI / 2);
+    pctx.font = "16px Microsoft YaHei";
+    pctx.fillText("相对光强 I", 0, 0);
+    pctx.restore();
 
-      <text x="${width/2}" y="35" text-anchor="middle" font-size="28" font-weight="bold">
-        双缝干涉强度分布
-      </text>
+    pctx.font = "16px Microsoft YaHei";
+    pctx.fillText("屏幕位置 x (mm)", w/2, h - 18);
 
-      <text x="${width/2}" y="68" text-anchor="middle" font-size="17">
-        λ=${lambdaNm} nm，d=${dMm.toFixed(2)} mm，L=${Lm.toFixed(2)} m
-      </text>
+    // curve
+    pctx.strokeStyle = "#2563eb";
+    pctx.lineWidth = 2.4;
+    pctx.beginPath();
+    curve.forEach((pt, idx) => {
+      if(idx === 0) pctx.moveTo(pt[0], pt[1]);
+      else pctx.lineTo(pt[0], pt[1]);
+    });
+    pctx.stroke();
 
-      <line x1="${margin}" y1="${height-margin}" x2="${width-margin}" y2="${height-margin}" stroke="black"/>
-      <line x1="${margin}" y1="${height-margin}" x2="${margin}" y2="${margin}" stroke="black"/>
+    // fringe band
+    const bandTop = h - 92;
+    const bandH = 34;
+    stripeData.forEach(({sx, I}) => {
+      const opacity = Math.max(0, Math.min(1, I / 1.1));
+      pctx.strokeStyle = `rgba(0,0,0,${opacity})`;
+      pctx.beginPath();
+      pctx.moveTo(sx, bandTop);
+      pctx.lineTo(sx, bandTop + bandH);
+      pctx.stroke();
+    });
 
-      ${ticks}
-
-      <text x="${width/2}" y="${height-12}" text-anchor="middle" font-size="18">屏幕位置 x (mm)</text>
-      <text x="34" y="${height/2}" font-size="18" transform="rotate(-90 34,${height/2})">相对光强 I</text>
-
-      <polyline points="${points.join(" ")}" fill="none" stroke="blue" stroke-width="2.2"/>
-
-      ${stripes.join("")}
-      <text x="${width/2}" y="${beamTop - 12}" text-anchor="middle" font-size="15">
-        屏幕上的干涉条纹（示意光斑带）
-      </text>
-    </svg>
-    `;
+    pctx.fillStyle = "#1f2a37";
+    pctx.font = "14px Microsoft YaHei";
+    pctx.fillText("屏幕上的干涉条纹（灰度示意）", w/2, bandTop - 10);
   }
 
-  function updateExperiment(){
-    const lambdaNm = parseInt(lambdaSlider.value, 10);
-    const dMm = parseFloat(dSlider.value);
-    const Lm = parseFloat(LSlider.value);
-
-    lambdaValue.textContent = `${lambdaNm} nm`;
-    dValue.textContent = `${dMm.toFixed(2)} mm`;
-    LValue.textContent = `${Lm.toFixed(2)} m`;
+  function updateText(params){
+    const { lambdaNm, dMm, aMm, Lm } = params;
 
     const deltaX_mm = (lambdaNm * 1e-9 * Lm / (dMm * 1e-3)) * 1000;
-
     const colorName = getColorName(lambdaNm);
-    const trend = `当前条纹间距约为 ${deltaX_mm.toFixed(2)} mm，屏幕上明暗条纹呈左右对称分布。`;
+
+    let envelopeTrend = "";
+    if(aMm >= 0.12) envelopeTrend = "包络较窄";
+    else if(aMm >= 0.06) envelopeTrend = "包络适中";
+    else envelopeTrend = "包络较宽";
 
     deltaXText.textContent = `${deltaX_mm.toFixed(2)} mm`;
     colorNameText.textContent = colorName;
-    trendText.textContent = `λ、L 增大时条纹变疏；d 增大时条纹变密。`;
+    envelopeText.textContent = envelopeTrend;
+    trendText.textContent = "λ、L↑ 条纹变疏；d↑ 条纹变密；a↑ 包络变窄";
 
     phenomenonText.innerHTML =
-      `当前采用的是<strong>${colorName}</strong>近似波长。` +
-      `在本组参数下，估计相邻亮纹间距约为 <strong>${deltaX_mm.toFixed(2)} mm</strong>。` +
-      `如果继续增大波长 λ 或屏距 L，条纹会进一步拉开；` +
-      `如果增大缝距 d，则条纹会变得更密。`;
-
-    apparatusWrap.innerHTML = apparatusSVG(lambdaNm, dMm, Lm);
-    plotDiv.innerHTML = makePlotSVG(lambdaNm, dMm, Lm);
+      `当前采用 <strong>${colorName}</strong> 近似波长，估计相邻亮纹间距约为 <strong>${deltaX_mm.toFixed(2)} mm</strong>。` +
+      ` 当前缝宽为 <strong>${aMm.toFixed(3)} mm</strong>，因此整体包络呈现 <strong>${envelopeTrend}</strong> 的趋势。` +
+      ` 这意味着你现在看到的不只是理想双缝干涉，还同时包含了更接近真实实验的衍射限制效果。`;
   }
 
-  lambdaSlider.addEventListener("input", updateExperiment);
-  dSlider.addEventListener("input", updateExperiment);
-  LSlider.addEventListener("input", updateExperiment);
+  function updateAll(){
+    const params = getParams();
+    updateLabels(params);
+    drawApparatus(params);
+    drawPlot(params);
+    updateText(params);
+  }
 
-  updateExperiment();
+  [lambdaSlider, dSlider, aSlider, LSlider, brightnessSlider, speedSlider].forEach(el => {
+    el.addEventListener("input", updateAll);
+  });
+
+  function animate(){
+    animT += 0.016;
+    drawApparatus(getParams());
+    requestAnimationFrame(animate);
+  }
+
+  updateAll();
+  animate();
 </script>
 
 </body>
