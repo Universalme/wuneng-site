@@ -1,1 +1,0 @@
-console.log("wuneng site loaded");
