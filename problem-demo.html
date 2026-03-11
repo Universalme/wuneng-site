@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI题目解析展示页 · 物能</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#1f2a37;
+      --muted:#5f6b7a;
+      --line:#dbe3ec;
+      --primary:#1f6feb;
+      --primary-dark:#1659bb;
+      --soft:#eaf3ff;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .container{
+      width:min(1180px, calc(100% - 24px));
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:36px 0 18px;
+      background:linear-gradient(135deg,#eaf3ff 0%,#f7fbff 58%,#eef5ff 100%);
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero h1{
+      margin:0;
+      text-align:center;
+      font-size:38px;
+    }
+
+    .hero p{
+      margin:10px auto 0;
+      max-width:860px;
+      text-align:center;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:700;
+      font-size:14px;
+      transition:.2s ease;
+      cursor:pointer;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+
+    .btn.primary{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+    }
+
+    .btn.primary:hover{
+      background:var(--primary-dark);
+    }
+
+    main{
+      padding:18px 0 28px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1.05fr 1.35fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .left-col,.right-col{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .card h2{
+      margin:0 0 8px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:18px;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .input-box{
+      width:100%;
+      min-height:180px;
+      resize:vertical;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      font-family:inherit;
+      font-size:15px;
+      outline:none;
+      background:#fcfdff;
+    }
+
+    .input-box:focus{
+      border-color:#9fc2ff;
+      box-shadow:0 0 0 3px rgba(31,111,235,.08);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .select, .text-input{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:14px;
+      background:#fcfdff;
+    }
+
+    .tip{
+      padding:10px 12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+      border-radius:12px;
+      color:#355070;
+      font-size:13px;
+    }
+
+    .metric-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .metric{
+      padding:10px;
+      border-radius:12px;
+      background:#f8fbff;
+      border:1px solid #dce9ff;
+    }
+
+    .metric .label{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    .metric .value{
+      font-size:14px;
+      font-weight:700;
+      color:#223348;
+      line-height:1.4;
+    }
+
+    .answer-block{
+      margin-bottom:14px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fcfdff;
+    }
+
+    .answer-block h4{
+      margin:0 0 8px;
+      font-size:16px;
+      color:#1f3b64;
+    }
+
+    .chip-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+
+    .chip{
+      background:var(--soft);
+      color:var(--primary-dark);
+      border-radius:999px;
+      padding:5px 10px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .footer{
+      text-align:center;
+      padding:8px 0 20px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width: 980px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .hero h1{
+        font-size:30px;
+      }
+
+      .row, .metric-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1>AI 题目解析展示页</h1>
+    <p>用于展示“物能”在题目识别、知识点提取、公式匹配、步骤讲解与错因分析方面的能力，可作为比赛答辩时的重点展示页面。</p>
+    <div class="hero-actions">
+      <a class="btn" href="index.html">返回首页</a>
+      <a class="btn primary" id="goCozeBtn" href="#" target="_blank">进入 AI 智能体继续追问</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="layout">
+
+    <div class="left-col">
+      <section class="card">
+        <h2>一、题目输入区</h2>
+        <p class="muted">这里用于模拟用户上传或粘贴物理题目。比赛演示时，你可以直接现场替换题干内容。</p>
+
+        <div class="row" style="margin-bottom:10px;">
+          <select class="select" id="stageSelect">
+            <option value="初中">初中物理</option>
+            <option value="高中" selected>高中物理</option>
+            <option value="大学">大学物理</option>
+          </select>
+
+          <select class="select" id="typeSelect">
+            <option value="力学">力学</option>
+            <option value="电学">电学</option>
+            <option value="光学" selected>光学</option>
+            <option value="热学">热学</option>
+            <option value="近代物理">近代物理</option>
+          </select>
+        </div>
+
+        <textarea id="problemInput" class="input-box">在杨氏双缝干涉实验中，已知单色光波长 λ = 600 nm，双缝间距 d = 0.20 mm，双缝到屏幕的距离 L = 1.0 m，求相邻两条亮纹之间的距离。</textarea>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <button class="btn primary" id="analyzeBtn">开始解析</button>
+          <button class="btn" id="loadExampleBtn">加载示例题</button>
+          <button class="btn" id="clearBtn">清空题目</button>
+        </div>
+
+        <div class="tip" style="margin-top:12px;">
+          当前版本是“展示型解析页”。后续你可以继续接入 OCR、上传图片识别、Coze 工作流或真实后端接口。
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>二、题目信息提取</h2>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="label">学段</div>
+            <div class="value" id="metricStage">高中</div>
+          </div>
+          <div class="metric">
+            <div class="label">题型</div>
+            <div class="value" id="metricType">计算题</div>
+          </div>
+          <div class="metric">
+            <div class="label">核心知识点</div>
+            <div class="value" id="metricKnowledge">双缝干涉、条纹间距</div>
+          </div>
+          <div class="metric">
+            <div class="label">难度判断</div>
+            <div class="value" id="metricDifficulty">基础</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>三、知识标签</h2>
+        <div class="chip-row" id="chipRow">
+          <span class="chip">双缝干涉</span>
+          <span class="chip">条纹间距公式</span>
+          <span class="chip">波长</span>
+          <span class="chip">缝距</span>
+          <span class="chip">屏距</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="right-col">
+      <section class="card">
+        <h2>四、解析结果展示</h2>
+
+        <div class="answer-block">
+          <h4>题目理解</h4>
+          <div id="understandingText">
+            本题考查双缝干涉中相邻亮纹间距的计算，属于典型公式应用题。
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>已知条件</h4>
+          <div id="knownText">
+            λ = 600 nm，d = 0.20 mm，L = 1.0 m。
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>所用公式</h4>
+          <div id="formulaText">
+            条纹间距公式：Δx = λL / d
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>分步骤解析</h4>
+          <div id="stepsText">
+            第一步：统一单位，将 λ = 600 nm = 6×10⁻⁷ m，d = 0.20 mm = 2.0×10⁻⁴ m。<br><br>
+            第二步：代入公式 Δx = λL / d。<br><br>
+            第三步：Δx = (6×10⁻⁷ × 1.0) / (2.0×10⁻⁴) = 3×10⁻³ m = 3 mm。
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>最终答案</h4>
+          <div id="answerText">
+            相邻两条亮纹之间的距离为 <strong>3 mm</strong>。
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>易错点提醒</h4>
+          <div id="mistakeText">
+            最容易出错的地方是单位换算：nm 要换成 m，mm 也要换成 m。
+          </div>
+        </div>
+
+        <div class="answer-block">
+          <h4>拓展建议</h4>
+          <div id="extensionText">
+            你可以继续思考：如果波长增大，条纹会如何变化？如果双缝间距增大，条纹会变疏还是变密？
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>物能 · AI 题目解析展示页</p>
+  </div>
+</footer>
+
+<script>
+  // ===== 这里填你的 Coze 链接 =====
+  const COZE_LINK = "https://你的-coze-智能体链接";
+
+  const goCozeBtn = document.getElementById("goCozeBtn");
+  if (COZE_LINK.startsWith("http")) {
+    goCozeBtn.href = COZE_LINK;
+  } else {
+    goCozeBtn.href = "#";
+  }
+
+  const problemInput = document.getElementById("problemInput");
+  const stageSelect = document.getElementById("stageSelect");
+  const typeSelect = document.getElementById("typeSelect");
+
+  const analyzeBtn = document.getElementById("analyzeBtn");
+  const loadExampleBtn = document.getElementById("loadExampleBtn");
+  const clearBtn = document.getElementById("clearBtn");
+
+  const metricStage = document.getElementById("metricStage");
+  const metricType = document.getElementById("metricType");
+  const metricKnowledge = document.getElementById("metricKnowledge");
+  const metricDifficulty = document.getElementById("metricDifficulty");
+  const chipRow = document.getElementById("chipRow");
+
+  const understandingText = document.getElementById("understandingText");
+  const knownText = document.getElementById("knownText");
+  const formulaText = document.getElementById("formulaText");
+  const stepsText = document.getElementById("stepsText");
+  const answerText = document.getElementById("answerText");
+  const mistakeText = document.getElementById("mistakeText");
+  const extensionText = document.getElementById("extensionText");
+
+  const exampleProblem = `在杨氏双缝干涉实验中，已知单色光波长 λ = 600 nm，双缝间距 d = 0.20 mm，双缝到屏幕的距离 L = 1.0 m，求相邻两条亮纹之间的距离。`;
+
+  loadExampleBtn.addEventListener("click", () => {
+    problemInput.value = exampleProblem;
+    stageSelect.value = "高中";
+    typeSelect.value = "光学";
+  });
+
+  clearBtn.addEventListener("click", () => {
+    problemInput.value = "";
+  });
+
+  analyzeBtn.addEventListener("click", () => {
+    const stage = stageSelect.value;
+    const subjectType = typeSelect.value;
+    const problem = problemInput.value.trim();
+
+    metricStage.textContent = stage;
+    metricType.textContent = "计算题";
+    metricDifficulty.textContent = stage === "初中" ? "基础" : (stage === "高中" ? "基础-中等" : "中等");
+
+    if (!problem) {
+      metricKnowledge.textContent = "未识别";
+      chipRow.innerHTML = `<span class="chip">请先输入题目</span>`;
+      understandingText.innerHTML = "当前没有可供解析的题目内容。";
+      knownText.innerHTML = "暂无。";
+      formulaText.innerHTML = "暂无。";
+      stepsText.innerHTML = "请先输入或加载题目后再点击“开始解析”。";
+      answerText.innerHTML = "暂无结果。";
+      mistakeText.innerHTML = "暂无。";
+      extensionText.innerHTML = "暂无。";
+      return;
+    }
+
+    // 这里先做展示型规则解析，后面可接真实模型/工作流
+    if (problem.includes("双缝") || problem.includes("干涉")) {
+      metricKnowledge.textContent = "双缝干涉、条纹间距";
+      chipRow.innerHTML = `
+        <span class="chip">双缝干涉</span>
+        <span class="chip">条纹间距公式</span>
+        <span class="chip">波长</span>
+        <span class="chip">缝距</span>
+        <span class="chip">屏距</span>
+      `;
+      understandingText.innerHTML = "本题考查双缝干涉中相邻亮纹间距的计算，属于典型公式应用题。";
+      knownText.innerHTML = "λ = 600 nm，d = 0.20 mm，L = 1.0 m。";
+      formulaText.innerHTML = "条纹间距公式：Δx = λL / d";
+      stepsText.innerHTML = `
+        第一步：统一单位，将 λ = 600 nm = 6×10⁻⁷ m，d = 0.20 mm = 2.0×10⁻⁴ m。<br><br>
+        第二步：代入公式 Δx = λL / d。<br><br>
+        第三步：Δx = (6×10⁻⁷ × 1.0) / (2.0×10⁻⁴) = 3×10⁻³ m = 3 mm。
+      `;
+      answerText.innerHTML = `相邻两条亮纹之间的距离为 <strong>3 mm</strong>。`;
+      mistakeText.innerHTML = "易错点主要在单位换算，尤其是 nm 与 mm 都需要换成国际单位制中的 m。";
+      extensionText.innerHTML = "可继续探究：增大波长会让条纹变疏，增大缝距会让条纹变密。";
+      return;
+    }
+
+    if (problem.includes("透镜") || problem.includes("焦距") || problem.includes("像距")) {
+      metricKnowledge.textContent = "透镜成像、薄透镜公式";
+      chipRow.innerHTML = `
+        <span class="chip">透镜成像</span>
+        <span class="chip">薄透镜公式</span>
+        <span class="chip">物距</span>
+        <span class="chip">像距</span>
+        <span class="chip">焦距</span>
+      `;
+      understandingText.innerHTML = "本题主要考查薄透镜成像关系以及物距、焦距、像距之间的联系。";
+      knownText.innerHTML = "请根据题干读取物距、焦距、像距等条件。";
+      formulaText.innerHTML = "薄透镜公式：1/f = 1/u + 1/v；放大率：m = -v/u";
+      stepsText.innerHTML = `
+        第一步：明确已知量与待求量。<br><br>
+        第二步：根据题干判断是凸透镜还是凹透镜。<br><br>
+        第三步：代入薄透镜公式求像距，再结合放大率判断像的大小和正倒。`;
+      answerText.innerHTML = "请根据具体数值代入后得到最终答案。";
+      mistakeText.innerHTML = "常见错误包括：符号约定混乱、实像与虚像判断错误、忽略放大率符号。";
+      extensionText.innerHTML = "建议进一步结合透镜成像实验页同步观察物距变化引起的像距变化。";
+      return;
+    }
+
+    if (problem.includes("势阱") || problem.includes("波函数") || problem.includes("量子")) {
+      metricKnowledge.textContent = "无限深势阱、波函数、概率密度";
+      chipRow.innerHTML = `
+        <span class="chip">无限深势阱</span>
+        <span class="chip">波函数</span>
+        <span class="chip">概率密度</span>
+        <span class="chip">量子数</span>
+        <span class="chip">能级离散</span>
+      `;
+      understandingText.innerHTML = "本题涉及量子力学中无限深势阱模型，重点在波函数形式、节点数和能级规律。";
+      knownText.innerHTML = "请从题干中提取量子数 n、阱宽 L 等关键量。";
+      formulaText.innerHTML = "ψₙ(x)=√(2/L)·sin(nπx/L)，Eₙ ∝ n²/L²";
+      stepsText.innerHTML = `
+        第一步：识别题目是在求波函数、概率密度还是能级。<br><br>
+        第二步：确定量子数 n 与阱宽 L。<br><br>
+        第三步：代入相应公式分析节点数、主峰数或能级大小规律。`;
+      answerText.innerHTML = "根据具体题目条件进一步代入计算。";
+      mistakeText.innerHTML = "常见错误包括：把波函数 ψ 与概率密度 |ψ|² 混淆，以及忽略节点与量子数之间的关系。";
+      extensionText.innerHTML = "建议结合无限深势阱实验页同步观察不同 n 下的波函数和概率密度变化。";
+      return;
+    }
+
+    metricKnowledge.textContent = subjectType + "基础知识";
+    chipRow.innerHTML = `
+      <span class="chip">${stage}</span>
+      <span class="chip">${subjectType}</span>
+      <span class="chip">题目解析</span>
+      <span class="chip">分步讲解</span>
+    `;
+    understandingText.innerHTML = "系统已识别到这是一道物理题目，当前采用通用解析模板进行展示。";
+    knownText.innerHTML = "请从题干中提取关键条件、已知物理量和待求目标。";
+    formulaText.innerHTML = "根据具体题型匹配对应公式。";
+    stepsText.innerHTML = `
+      第一步：审题，找出已知条件和所求量。<br><br>
+      第二步：判断考查知识点，选择合适物理模型。<br><br>
+      第三步：列公式、代入数据、计算结果。<br><br>
+      第四步：检查单位与结果合理性。`;
+    answerText.innerHTML = "请结合具体题干继续细化。";
+    mistakeText.innerHTML = "常见问题包括审题不清、模型选错、公式误用和单位漏写。";
+    extensionText.innerHTML = "后续可接入真实 AI 工作流实现自动化深度解析。";
+  });
+</script>
+</body>
+</html>
